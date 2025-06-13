@@ -387,6 +387,12 @@
         .dark-mode .modal-btn:hover {
             background-color: #357abd;
         }
+        /* Disabled option style */
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -440,8 +446,8 @@
                 <button id="mute-btn" class="mute-btn">Tắt tiếng</button>
             </div>
             <!-- Audio elements for correct and incorrect answers -->
-            <audio id="correct-sound" src="Sound\correct.mp3"></audio>
-            <audio id="incorrect-sound" src="Sound\incorrect_sound.ogg"></audio>
+            <audio id="correct-sound" src="Sound/correct.mp3"></audio>
+            <audio id="incorrect-sound" src="Sound/incorrect_sound.ogg"></audio>
         </div>
         <div class="toc-container">
             <div class="toc-title">Mục lục câu hỏi</div>
@@ -2031,29 +2037,35 @@
             `;
 
             const userAnswers = userAnswersPerSection[currentSection];
-            if (userAnswers && userAnswers[currentQuestionIndex]) {
+            const hasAnswered = userAnswers && userAnswers[currentQuestionIndex];
+
+            if (hasAnswered) {
                 const selected = userAnswers[currentQuestionIndex].answer;
                 const selectedOption = document.querySelector(`input[value="${selected}"]`);
                 if (selectedOption) {
                     selectedOption.checked = true;
-                    checkAnswer(selectedOption.value, true);
+                    checkAnswer(selected, true);
+                    // Disable all options since an answer has been selected
+                    document.querySelectorAll('.option').forEach(option => {
+                        option.classList.add('disabled');
+                        option.querySelector('input').disabled = true;
+                    });
                 }
-            }
-
-            document.querySelectorAll('.option').forEach(option => {
-                option.addEventListener('click', function() {
-                    const radio = this.querySelector('input');
-                    radio.checked = true;
-                    checkAnswer(radio.value);
-                    clearTimeout(autoNextTimer);
-                    if (currentQuestionIndex < quizData[currentSection].length - 1) {
-                        autoNextTimer = setTimeout(() => {
-                            currentQuestionIndex++;
-                            updateQuestionDisplay();
-                        }, 2000);
-                    }
+            } else {
+                // Add click event listeners only if no answer has been selected
+                document.querySelectorAll('.option').forEach(option => {
+                    option.addEventListener('click', function() {
+                        const radio = this.querySelector('input');
+                        radio.checked = true;
+                        checkAnswer(radio.value);
+                        // Disable all options after selection
+                        document.querySelectorAll('.option').forEach(opt => {
+                            opt.classList.add('disabled');
+                            opt.querySelector('input').disabled = true;
+                        });
+                    }, { once: true }); // Use { once: true } to ensure the listener is removed after first click
                 });
-            });
+            }
 
             document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
             document.getElementById('next-btn').disabled = currentQuestionIndex === questions.length - 1;
@@ -2097,6 +2109,13 @@
             updateProgress();
             updateTOC();
             updateWrongQuestionsList();
+            // Auto-advance to next question after 2 seconds if not the last question
+            if (!isRestoring && currentQuestionIndex < quizData[currentSection].length - 1) {
+                autoNextTimer = setTimeout(() => {
+                    currentQuestionIndex++;
+                    updateQuestionDisplay();
+                }, 2000);
+            }
         }
 
         function updateProgress() {
