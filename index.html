@@ -267,7 +267,7 @@
             gap: 20px;
             align-items: center;
         }
-        .dark-mode-toggle, .submit-btn, .mute-btn {
+        .dark-mode-toggle, .submit-btn, .mute-btn, .retry-wrong-btn {
             padding: 8px 15px;
             background-color: #3498db;
             color: white;
@@ -276,13 +276,13 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        .dark-mode .dark-mode-toggle, .dark-mode .submit-btn, .dark-mode .mute-btn {
+        .dark-mode .dark-mode-toggle, .dark-mode .submit-btn, .dark-mode .mute-btn, .dark-mode .retry-wrong-btn {
             background-color: #4a90e2;
         }
-        .dark-mode-toggle:hover, .submit-btn:hover, .mute-btn:hover {
+        .dark-mode-toggle:hover, .submit-btn:hover, .mute-btn:hover, .retry-wrong-btn:hover {
             background-color: #2980b9;
         }
-        .dark-mode .dark-mode-toggle:hover, .dark-mode .submit-btn:hover, .dark-mode .mute-btn:hover {
+        .dark-mode .dark-mode-toggle:hover, .dark-mode .submit-btn:hover, .dark-mode .mute-btn:hover, .dark-mode .retry-wrong-btn:hover {
             background-color: #357abd;
         }
         .timer-score-container {
@@ -313,25 +313,107 @@
         .dark-mode .timer, .dark-mode .score {
             color: #ffffff;
         }
+        .retry-wrong-container {
+            margin-top: 15px;
+            text-align: center;
+        }
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+        .dark-mode .modal-content {
+            background-color: #2c2c2c;
+            color: #e0e0e0;
+        }
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #333;
+        }
+        .dark-mode .close {
+            color: #e0e0e0;
+        }
+        .close:hover {
+            color: #dc3545;
+        }
+        .modal-content h2 {
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+        .dark-mode .modal-content h2 {
+            color: #4caf50;
+        }
+        .modal-content p {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+        .modal-btn {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .dark-mode .modal-btn {
+            background-color: #4a90e2;
+        }
+        .modal-btn:hover {
+            background-color: #2980b9;
+        }
+        .dark-mode .modal-btn:hover {
+            background-color: #357abd;
+        }
     </style>
 </head>
 <body>
+    <!-- Modal Chúc mừng -->
+    <div id="congrats-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span id="close-modal" class="close">×</span>
+            <h2>🎉 Chúc mừng bạn đã hoàn thành bài thi! 🎉</h2>
+            <p>Bạn đã trả lời tất cả các câu hỏi trong bài thi <strong>Hệ Hỗ Trợ Ra Quyết Định DSS</strong>.</p>
+            <p>Điểm của bạn: <span id="final-score">Chưa nộp bài</span></p>
+            <p>Thời gian hoàn thành: <span id="final-time">00:00:00</span></p>
+            <button id="review-btn" class="modal-btn">Xem lại bài làm</button>
+            <button id="restart-btn" class="modal-btn">Làm lại bài thi</button>
+        </div>
+    </div>
     <div class="main-container">
         <div class="quiz-container-wrapper">
             <h1>TRẮC NGHIỆM HỆ HỖ TRỢ RA QUYẾT ĐỊNH DSS</h1>
-            
             <div class="sections">
                 <!-- Các nút phần thi sẽ được thêm bằng JavaScript -->
             </div>
-            
             <div class="progress">
                 <!-- Loại bỏ "Câu <span id="current-question">1</span>/<span id="total-questions">0</span>" -->
             </div>
-            
             <div class="quiz-container" id="quiz-container">
                 <!-- Nội dung câu hỏi sẽ được thêm bằng JavaScript -->
             </div>
-            
             <div class="navigation">
                 <button class="nav-btn" id="prev-btn" disabled>Câu trước</button>
                 <button class="nav-btn" id="next-btn">Câu tiếp</button>
@@ -349,7 +431,6 @@
                       Sai: <span id="incorrect-count" style="color: #dc3545;">0</span>
                 </div>
             </div>
-
             <div class="additional-controls">
                 <label><input type="checkbox" id="shuffle-answers"> Đảo đáp án</label>
                 <label><input type="checkbox" id="shuffle-questions"> Đảo câu hỏi</label>
@@ -358,7 +439,6 @@
                 <button id="submit-btn" class="submit-btn">Hoàn thành bài thi</button>
                 <button id="mute-btn" class="mute-btn">Tắt tiếng</button>
             </div>
-
             <!-- Audio elements for correct and incorrect answers -->
             <audio id="correct-sound" src="Sound\correct.mp3"></audio>
             <audio id="incorrect-sound" src="Sound\incorrect_sound.ogg"></audio>
@@ -370,6 +450,9 @@
                 <button class="prev" id="toc-prev">Trước</button>
                 <button class="next" id="toc-next">Sau</button>
             </div>
+            <div class="retry-wrong-container">
+                <button id="retry-wrong-btn" class="retry-wrong-btn">Làm lại câu sai</button>
+            </div>
             <div class="timer-score-container">
                 <div class="timer-score-title">Thông tin bài làm</div>
                 <div class="timer" id="timer">Thời gian: 00:00:00</div>
@@ -377,7 +460,6 @@
             </div>
         </div>
     </div>
-
     <script>
         // Dữ liệu câu hỏi được tổ chức theo sections
         const quizData = {
@@ -1605,6 +1687,7 @@
             ]
                 };
         const originalQuizData = JSON.parse(JSON.stringify(quizData)); // Lưu dữ liệu gốc
+        let savedQuizState = null; // Store the quiz state before retrying wrong questions
 
         // Audio objects
         const correctSound = document.getElementById('correct-sound');
@@ -1617,6 +1700,7 @@
         let startTime = null;
         let timerInterval = null;
         let isMuted = false; // Trạng thái âm thanh
+        let wrongQuestions = []; // Danh sách các câu đã làm sai
 
         // Dark mode functionality
         const darkModeToggle = document.getElementById('dark-mode-toggle');
@@ -1688,19 +1772,83 @@
             return completedCount === totalQuestions;
         }
 
+        // Hàm cập nhật danh sách câu sai
+        function updateWrongQuestionsList() {
+            wrongQuestions = [];
+            for (const section in quizData) {
+                const questions = quizData[section];
+                const answers = userAnswersPerSection[section] || {};
+                questions.forEach((_, index) => {
+                    if (answers[index] && answers[index].isCorrect === false) {
+                        wrongQuestions.push({
+                            section: section,
+                            index: index,
+                            question: questions[index].question
+                        });
+                    }
+                });
+            }
+            return wrongQuestions;
+        }
+
+        // Hàm kiểm tra xem có câu nào sai không
+        function hasWrongAnswers() {
+            for (const section in userAnswersPerSection) {
+                for (const index in userAnswersPerSection[section]) {
+                    if (userAnswersPerSection[section][index].isCorrect === false) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        function showCongratsModal() {
+            const modal = document.getElementById('congrats-modal');
+            const finalScore = document.getElementById('final-score');
+            const finalTime = document.getElementById('final-time');
+            const { score } = calculateScore();
+            const timerText = document.getElementById('timer').textContent;
+
+            finalScore.textContent = `${score}/10`;
+            finalTime.textContent = timerText.replace('Thời gian: ', '');
+            modal.style.display = 'flex';
+
+            // Đóng modal khi nhấn nút đóng
+            document.getElementById('close-modal').onclick = () => {
+                modal.style.display = 'none';
+            };
+
+            // Xem lại bài làm
+            document.getElementById('review-btn').onclick = () => {
+                modal.style.display = 'none';
+            };
+
+            // Làm lại bài thi
+            document.getElementById('restart-btn').onclick = () => {
+                modal.style.display = 'none';
+                document.getElementById('reload-btn').click();
+            };
+
+            // Đóng modal khi nhấn bên ngoài
+            window.onclick = (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            };
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             initSections();
             initEventListeners();
             updateTOC();
             startTimer();
-            // Cập nhật total-questions cho tất cả các section
             const totalQuestions = calculateTotalQuestions();
             document.querySelectorAll('#total-questions').forEach(el => el.textContent = totalQuestions);
         });
 
         function initSections() {
             const sectionsContainer = document.querySelector('.sections');
-
             for (const section in quizData) {
                 const sectionBtn = document.createElement('button');
                 sectionBtn.className = 'section-btn';
@@ -1708,7 +1856,6 @@
                 sectionBtn.dataset.section = section;
                 sectionsContainer.appendChild(sectionBtn);
             }
-
             if (Object.keys(quizData).length > 0) {
                 currentSection = Object.keys(quizData)[0];
                 userAnswersPerSection[currentSection] = userAnswersPerSection[currentSection] || {};
@@ -1718,45 +1865,143 @@
         }
 
         function initEventListeners() {
-            document.querySelectorAll('.section-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelector('.section-btn.active').classList.remove('active');
-                    this.classList.add('active');
-
-                    userAnswersPerSection[currentSection].currentQuestionIndex = currentQuestionIndex;
-
-                    currentSection = this.dataset.section;
-                    userAnswersPerSection[currentSection] = userAnswersPerSection[currentSection] || {};
-                    currentQuestionIndex = userAnswersPerSection[currentSection].currentQuestionIndex || 0;
-                    loadSection(currentSection);
-                    updateTOC();
-                });
+            // Remove existing listeners to prevent duplication
+            const sectionButtons = document.querySelectorAll('.section-btn');
+            sectionButtons.forEach(btn => {
+                btn.removeEventListener('click', handleSectionClick);
+                btn.addEventListener('click', handleSectionClick);
             });
 
+            function handleSectionClick() {
+                document.querySelector('.section-btn.active')?.classList.remove('active');
+                this.classList.add('active');
+                userAnswersPerSection[currentSection].currentQuestionIndex = currentQuestionIndex;
+                currentSection = this.dataset.section;
+                userAnswersPerSection[currentSection] = userAnswersPerSection[currentSection] || {};
+                currentQuestionIndex = userAnswersPerSection[currentSection].currentQuestionIndex || 0;
+                loadSection(currentSection);
+                updateTOC();
+            }
+
+            document.getElementById('prev-btn').removeEventListener('click', prevQuestion);
             document.getElementById('prev-btn').addEventListener('click', prevQuestion);
+            document.getElementById('next-btn').removeEventListener('click', nextQuestion);
             document.getElementById('next-btn').addEventListener('click', nextQuestion);
+            document.getElementById('toc-prev').removeEventListener('click', prevTOCPage);
             document.getElementById('toc-prev').addEventListener('click', prevTOCPage);
+            document.getElementById('toc-next').removeEventListener('click', nextTOCPage);
             document.getElementById('toc-next').addEventListener('click', nextTOCPage);
-            document.getElementById('submit-btn').addEventListener('click', () => {
+            document.getElementById('submit-btn').removeEventListener('click', handleSubmit);
+            document.getElementById('submit-btn').addEventListener('click', handleSubmit);
+            document.getElementById('mute-btn').removeEventListener('click', toggleMute);
+            document.getElementById('mute-btn').addEventListener('click', toggleMute);
+            document.getElementById('retry-wrong-btn').removeEventListener('click', handleRetryWrong);
+            document.getElementById('retry-wrong-btn').addEventListener('click', handleRetryWrong);
+
+            function handleSubmit() {
                 if (!checkCompletion()) {
                     if (confirm('Bạn chưa hoàn thành hết các câu hỏi. Bạn có chắc muốn nộp bài không?')) {
                         displayScore();
+                        showCongratsModal();
                     }
                 } else {
                     displayScore();
+                    showCongratsModal();
                 }
-            });
-            document.getElementById('mute-btn').addEventListener('click', () => {
+            }
+
+            function toggleMute() {
                 isMuted = !isMuted;
                 document.getElementById('mute-btn').textContent = isMuted ? 'Bật tiếng' : 'Tắt tiếng';
-            });
+            }
+
+            function handleRetryWrong() {
+                updateWrongQuestionsList();
+                if (wrongQuestions.length === 0) {
+                    alert('Bạn chưa có câu nào làm sai hoặc chưa làm câu nào!');
+                    return;
+                }
+                if (confirm(`Bạn có muốn làm lại ${wrongQuestions.length} câu đã làm sai không?`)) {
+                    // Save current quiz state
+                    savedQuizState = {
+                        quizData: JSON.parse(JSON.stringify(quizData)),
+                        userAnswersPerSection: JSON.parse(JSON.stringify(userAnswersPerSection)),
+                        currentSection: currentSection,
+                        currentQuestionIndex: currentQuestionIndex
+                    };
+
+                    // Prepare retry data
+                    const retryQuizData = {};
+                    retryQuizData["Câu sai"] = wrongQuestions.map(item => {
+                        return savedQuizState.quizData[item.section][item.index];
+                    });
+                    userAnswersPerSection["Câu sai"] = {};
+
+                    // Update quiz data
+                    Object.keys(quizData).forEach(key => delete quizData[key]);
+                    Object.assign(quizData, retryQuizData);
+
+                    // Update UI
+                    currentSection = "Câu sai";
+                    currentQuestionIndex = 0;
+                    const sectionsContainer = document.querySelector('.sections');
+                    sectionsContainer.innerHTML = '';
+
+                    // Add retry section button
+                    const sectionBtn = document.createElement('button');
+                    sectionBtn.className = 'section-btn active';
+                    sectionBtn.textContent = "Câu sai";
+                    sectionBtn.dataset.section = "Câu sai";
+                    sectionsContainer.appendChild(sectionBtn);
+
+                    // Add back button
+                    const backBtn = document.createElement('button');
+                    backBtn.className = 'section-btn';
+                    backBtn.textContent = "Quay lại bài test";
+                    backBtn.style.backgroundColor = "#ff9800";
+                    backBtn.addEventListener('click', () => {
+                        if (savedQuizState) {
+                            // Restore saved state
+                            Object.keys(quizData).forEach(key => delete quizData[key]);
+                            Object.assign(quizData, JSON.parse(JSON.stringify(savedQuizState.quizData)));
+                            Object.keys(userAnswersPerSection).forEach(key => delete userAnswersPerSection[key]);
+                            Object.assign(userAnswersPerSection, JSON.parse(JSON.stringify(savedQuizState.userAnswersPerSection)));
+                            currentSection = savedQuizState.currentSection;
+                            currentQuestionIndex = savedQuizState.currentQuestionIndex;
+
+                            // Rebuild section buttons
+                            sectionsContainer.innerHTML = '';
+                            for (const section in quizData) {
+                                const btn = document.createElement('button');
+                                btn.className = 'section-btn';
+                                if (section === currentSection) btn.classList.add('active');
+                                btn.textContent = section;
+                                btn.dataset.section = section;
+                                sectionsContainer.appendChild(btn);
+                            }
+
+                            // Reinitialize only section button listeners
+                            document.querySelectorAll('.section-btn').forEach(btn => {
+                                btn.removeEventListener('click', handleSectionClick);
+                                btn.addEventListener('click', handleSectionClick);
+                            });
+
+                            loadSection(currentSection);
+                            updateTOC();
+                        }
+                    });
+                    sectionsContainer.appendChild(backBtn);
+
+                    loadSection(currentSection);
+                    updateTOC();
+                }
+            }
         }
 
         function loadSection(section) {
             const quizContainer = document.getElementById('quiz-container');
             quizContainer.innerHTML = '';
             quizContainer.classList.add('active');
-
             if (quizData[section] && quizData[section].length > 0) {
                 const totalQuestions = calculateTotalQuestions();
                 document.getElementById('total-questions').textContent = totalQuestions;
@@ -1766,7 +2011,6 @@
 
         function updateQuestionDisplay() {
             clearTimeout(autoNextTimer);
-
             const quizContainer = document.getElementById('quiz-container');
             const questions = quizData[currentSection];
             const question = questions[currentQuestionIndex];
@@ -1801,7 +2045,6 @@
                     const radio = this.querySelector('input');
                     radio.checked = true;
                     checkAnswer(radio.value);
-
                     clearTimeout(autoNextTimer);
                     if (currentQuestionIndex < quizData[currentSection].length - 1) {
                         autoNextTimer = setTimeout(() => {
@@ -1814,7 +2057,6 @@
 
             document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
             document.getElementById('next-btn').disabled = currentQuestionIndex === questions.length - 1;
-
             updateProgress();
             updateTOC();
         }
@@ -1833,7 +2075,6 @@
             options.forEach(option => {
                 const optionText = option.dataset.option;
                 option.classList.remove('correct', 'incorrect');
-
                 if (optionText === question.answer) {
                     option.classList.add('correct');
                 } else if (optionText === selectedAnswer && selectedAnswer !== question.answer) {
@@ -1855,6 +2096,7 @@
 
             updateProgress();
             updateTOC();
+            updateWrongQuestionsList();
         }
 
         function updateProgress() {
@@ -1901,8 +2143,6 @@
 
         document.getElementById('reload-btn').addEventListener('click', () => {
             if (!quizData[currentSection]) return;
-
-            // Xáo trộn mảng (Fisher-Yates)
             const shuffleArray = (arr) => {
                 const shuffled = [...arr];
                 for (let i = shuffled.length - 1; i > 0; i--) {
@@ -1911,24 +2151,17 @@
                 }
                 return shuffled;
             };
-
-            // Sao lưu và khôi phục đối chiếu theo index
-            userAnswersPerSection = {}; // reset answer tracker for all sections
+            userAnswersPerSection = {};
             stopTimer();
             startTimer();
-
-            // Khôi phục thứ tự gốc trước
             for (const section in quizData) {
                 quizData[section] = JSON.parse(JSON.stringify(originalQuizData[section]));
             }
-
-            // Áp dụng xáo trộn nếu checkbox được chọn
             if (document.getElementById('shuffle-questions').checked) {
                 for (const section in quizData) {
                     quizData[section] = shuffleArray(quizData[section]);
                 }
             }
-
             if (document.getElementById('shuffle-answers').checked) {
                 for (const section in quizData) {
                     quizData[section].forEach(q => {
@@ -1936,11 +2169,10 @@
                     });
                 }
             }
-
             currentSection = Object.keys(quizData)[0];
             currentQuestionIndex = 0;
             userAnswersPerSection[currentSection] = userAnswersPerSection[currentSection] || {};
-            document.querySelector(`.section-btn[data-section="${currentSection}"]`).classList.add('active');
+            document.querySelector(`.section-btn[data-section="${currentSection}"]`)?.classList.add('active');
             document.getElementById('score').textContent = 'Điểm: Chưa nộp bài';
             loadSection(currentSection);
             updateTOC();
@@ -1968,17 +2200,14 @@
             const questions = quizData[currentSection] || [];
             const answers = userAnswersPerSection[currentSection] || {};
             toc.innerHTML = '';
-
             const start = tocPage * tocItemsPerPage;
             const end = start + tocItemsPerPage;
             const paginatedQuestions = questions.slice(start, end);
-
             paginatedQuestions.forEach((_, index) => {
                 const globalIndex = start + index;
                 const item = document.createElement('div');
                 item.className = 'toc-item';
                 item.textContent = globalIndex + 1;
-
                 if (answers[globalIndex]) {
                     if (answers[globalIndex].isCorrect) {
                         item.classList.add('green');
@@ -1988,15 +2217,12 @@
                 } else if (globalIndex === currentQuestionIndex) {
                     item.classList.add('blue');
                 }
-
                 item.addEventListener('click', () => {
                     currentQuestionIndex = globalIndex;
                     updateQuestionDisplay();
                 });
-
                 toc.appendChild(item);
             });
-
             document.getElementById('toc-prev').disabled = tocPage === 0;
             document.getElementById('toc-next').disabled = end >= questions.length;
         }
@@ -2016,3 +2242,5 @@
             }
         }
     </script>
+</body>
+</html>
