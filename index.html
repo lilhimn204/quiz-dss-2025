@@ -1,0 +1,2018 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Trắc nghiệm Hệ Hỗ Trợ Ra Quyết Định DSS">
+    <meta name="author" content="Your Name">
+    <title>Trắc nghiệm Hệ Hỗ Trợ Ra Quyết Định DSS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+        .main-container {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .toc-container {
+                width: 100%;
+            }
+            .section-btn {
+                font-size: 14px;
+                padding: 6px 10px;
+            }
+        }
+        .quiz-container-wrapper {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .dark-mode .quiz-container-wrapper {
+            background: #2c2c2c;
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .dark-mode h1 {
+            color: #ffffff;
+        }
+        .sections {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .section-btn {
+            padding: 8px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .section-btn:hover {
+            background-color: #2980b9;
+        }
+        .section-btn.active {
+            background-color: #2c3e50;
+        }
+        .dark-mode .section-btn {
+            background-color: #4a90e2;
+        }
+        .dark-mode .section-btn:hover {
+            background-color: #357abd;
+        }
+        .dark-mode .section-btn.active {
+            background-color: #3a506b;
+        }
+        .quiz-container {
+            display: none;
+        }
+        .quiz-container.active {
+            display: block;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        .dark-mode .question {
+            background-color: #333333;
+            border-left-color: #4a90e2;
+        }
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .options {
+            margin-left: 20px;
+        }
+        .option {
+            margin-bottom: 8px;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .option:hover {
+            background-color: #e8f4fc;
+        }
+        .dark-mode .option:hover {
+            background-color: #444444;
+        }
+        .option input {
+            margin-right: 10px;
+        }
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        .dark-mode .correct {
+            background-color: #2e7d32;
+            border-left-color: #4caf50;
+        }
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        .dark-mode .incorrect {
+            background-color: #d32f2f;
+            border-left-color: #f44336;
+        }
+        .show-answer {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+            margin-top: 5px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        .dark-mode .show-answer {
+            background-color: #2e7d32;
+            border-left-color: #4caf50;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .nav-btn {
+            padding: 8px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .dark-mode .nav-btn {
+            background-color: #4a90e2;
+        }
+        .nav-btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        .dark-mode .nav-btn:disabled {
+            background-color: #616161;
+        }
+        .progress {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .dark-mode .progress {
+            color: #e0e0e0;
+        }
+        .toc-container {
+            width: 300px;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .dark-mode .toc-container {
+            background: #2c2c2c;
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
+        .toc-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .dark-mode .toc-title {
+            color: #ffffff;
+        }
+        .toc {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 2px;
+        }
+        .toc-item {
+            padding: 5px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #ddd;
+        }
+        .dark-mode .toc-item {
+            background-color: #555555;
+        }
+        .toc-item.green {
+            background-color: #28a745;
+            color: white;
+        }
+        .toc-item.red {
+            background-color: #dc3545;
+            color: white;
+        }
+        .toc-item.blue {
+            background-color: #3498db;
+            color: white;
+        }
+        .toc-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .toc-nav button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .toc-nav .prev {
+            background-color: #3498db;
+            color: white;
+        }
+        .dark-mode .toc-nav .prev {
+            background-color: #4a90e2;
+        }
+        .toc-nav .next {
+            background-color: #3498db;
+            color: white;
+        }
+        .dark-mode .toc-nav .next {
+            background-color: #4a90e2;
+        }
+        .additional-controls {
+            margin: 20px 0;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .dark-mode-toggle, .submit-btn, .mute-btn {
+            padding: 8px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .dark-mode .dark-mode-toggle, .dark-mode .submit-btn, .dark-mode .mute-btn {
+            background-color: #4a90e2;
+        }
+        .dark-mode-toggle:hover, .submit-btn:hover, .mute-btn:hover {
+            background-color: #2980b9;
+        }
+        .dark-mode .dark-mode-toggle:hover, .dark-mode .submit-btn:hover, .dark-mode .mute-btn:hover {
+            background-color: #357abd;
+        }
+        .timer-score-container {
+            margin-top: 20px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .dark-mode .timer-score-container {
+            background: #2c2c2c;
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
+        .timer-score-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #3498db;
+        }
+        .dark-mode .timer-score-title {
+            color: #ffffff;
+        }
+        .timer, .score {
+            font-size: 1.1em;
+            margin: 5px 0;
+            color: #3498db;
+        }
+        .dark-mode .timer, .dark-mode .score {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="quiz-container-wrapper">
+            <h1>TRẮC NGHIỆM HỆ HỖ TRỢ RA QUYẾT ĐỊNH DSS</h1>
+            
+            <div class="sections">
+                <!-- Các nút phần thi sẽ được thêm bằng JavaScript -->
+            </div>
+            
+            <div class="progress">
+                <!-- Loại bỏ "Câu <span id="current-question">1</span>/<span id="total-questions">0</span>" -->
+            </div>
+            
+            <div class="quiz-container" id="quiz-container">
+                <!-- Nội dung câu hỏi sẽ được thêm bằng JavaScript -->
+            </div>
+            
+            <div class="navigation">
+                <button class="nav-btn" id="prev-btn" disabled>Câu trước</button>
+                <button class="nav-btn" id="next-btn">Câu tiếp</button>
+            </div>
+            <div class="progress" style="max-width: 400px; margin: auto;">
+                <div style="margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
+                    <span>Tiến độ hoàn thành: <span id="completed-count">0</span>/<span id="total-questions">0</span></span>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div style="background-color: #dee3f0; height: 8px; border-radius: 10px; overflow: hidden;">
+                    <div id="progress-bar" style="height: 100%; width: 0%; background-color: #3b82f6;"></div>
+                </div>
+                <div style="margin-top: 6px">
+                    Đúng: <span id="correct-count" style="color: #28a745;">0</span>
+                      Sai: <span id="incorrect-count" style="color: #dc3545;">0</span>
+                </div>
+            </div>
+
+            <div class="additional-controls">
+                <label><input type="checkbox" id="shuffle-answers"> Đảo đáp án</label>
+                <label><input type="checkbox" id="shuffle-questions"> Đảo câu hỏi</label>
+                <button id="reload-btn" class="nav-btn">Tải lại phần thi</button>
+                <button id="dark-mode-toggle" class="dark-mode-toggle">Bật Dark Mode</button>
+                <button id="submit-btn" class="submit-btn">Hoàn thành bài thi</button>
+                <button id="mute-btn" class="mute-btn">Tắt tiếng</button>
+            </div>
+
+            <!-- Audio elements for correct and incorrect answers -->
+            <audio id="correct-sound" src="Sound\correct.mp3"></audio>
+            <audio id="incorrect-sound" src="Sound\incorrect_sound.ogg"></audio>
+        </div>
+        <div class="toc-container">
+            <div class="toc-title">Mục lục câu hỏi</div>
+            <div class="toc" id="toc"></div>
+            <div class="toc-nav">
+                <button class="prev" id="toc-prev">Trước</button>
+                <button class="next" id="toc-next">Sau</button>
+            </div>
+            <div class="timer-score-container">
+                <div class="timer-score-title">Thông tin bài làm</div>
+                <div class="timer" id="timer">Thời gian: 00:00:00</div>
+                <div class="score" id="score">Điểm: Chưa nộp bài</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dữ liệu câu hỏi được tổ chức theo sections
+        const quizData = {
+            "Phần 1(Câu 1-30)": [
+    {
+        question: "Câu 1: Tiến trình ra quyết định bao gồm mấy phần?",
+        options: [
+            "A. 1",
+            "B. 2",
+            "C. 3",
+            "D. 4"
+        ],
+        answer: "C. 3"
+    },
+    {
+        question: "Câu 2: Tiến trình ra quyết định bao gồm?",
+        options: [
+            "A. Phân Tích,Thiết Kế,Lựa chọn",
+            "B. Phân tích, thiết kế,lựa chọn, thực thi lựa chọn",
+            "C. Phân tích, thiết kế, hành động",
+            "D. Phân tích, thiết kế"
+        ],
+        answer: "A. Phân Tích,Thiết Kế,Lựa chọn"
+    },
+    {
+        question: "Câu 3: Quyết định được xác định theo một trình tự thủ tục xác định được gọi là quyết định……",
+        options: [
+            "A. Có cấu trúc",
+            "B. Không cấu trúc",
+            "C. Bán cấu trúc",
+            "D. Không tài liệu"
+        ],
+        answer: "A. Có cấu trúc"
+    },
+    {
+        question: "Câu 4: Tính lương cho công nhân được xếp vào phạm trù ra quyết định …",
+        options: [
+            "A. Có cấu trúc",
+            "B. Không cấu trúc",
+            "C. Bán cấu trúc",
+            "D. Không tài liệu"
+        ],
+        answer: "A. Có cấu trúc"
+    },
+    {
+        question: "Câu 5: Ra quyết định là?",
+        options: [
+            "A. Công việc của các nhà quản trị cấp cao",
+            "B. Lựa chọn 1 giải pháp cho vấn đề đã xác định",
+            "C. Một công việc mang tính nghệ thuật",
+            "D. Tất cả điều sai"
+        ],
+        answer: "A. Công việc của các nhà quản trị cấp cao"
+    },
+    {
+        question: "Câu 6: Ra quyết định là 1 hoạt động?",
+        options: [
+            "A. Nhờ vào trực giác",
+            "B. Mang tính khoa học và nghệ thuật",
+            "C. Nhờ vào kinh nghiệm",
+            "D. Tất cả điều chưa chính xác"
+        ],
+        answer: "B. Mang tính khoa học và nghệ thuật"
+    },
+    {
+        question: "Câu 7: Câu nào là câu có phát biểu sai trong các câu sau?",
+        options: [
+            "A. Ra quyết định phụ thuộc hoàn toàn vào ý muốn chủ quan của nhà quản trị",
+            "B. Ra quyết định mang tính khoa học và nghệ thuật",
+            "C. Việc ra quyết định rất cần dựa vào kinh nghiệm",
+            "D. Cần nắm vững lý thuyết ra quyết định"
+        ],
+        answer: "A. Ra quyết định phụ thuộc hoàn toàn vào ý muốn chủ quan của nhà quản trị"
+    },
+    {
+        question: "Câu 8: Ra quyết định quản trị nhằm?",
+        options: [
+            "A. Chọn phương án tốt nhất và ra quyết định",
+            "B. Thảo luận với những người khác và ra quyết định",
+            "C. Giải quyết 1 vấn đề",
+            "D. Tìm phương án để giải quyết vấn đề"
+        ],
+        answer: "A. Chọn phương án tốt nhất và ra quyết định"
+    },
+    {
+        question: "Câu 9: Quy trình ra quyết định gồm?",
+        options: [
+            "A. Xác định vấn đề và ra quyết định",
+            "B. Chọn phương án tốt nhất và ra quyết định",
+            "C. Thảo luận với những người khác và ra quyết định",
+            "D. Nhiều bước khác nhau"
+        ],
+        answer: "D. Nhiều bước khác nhau"
+    },
+    {
+        question: "Câu 10: DSS là viết tắt của hệ thống nào?",
+        options: [
+            "A. Hệ hỗ trợ điều hành",
+            "B. Hệ chuyên gia",
+            "C. Hệ tri thức",
+            "D. Hệ trợ giúp ra quyết định"
+        ],
+        answer: "D. Hệ trợ giúp ra quyết định"
+    },
+        {
+        question: "Câu 11: Bước thứ nhất trong tiến trình ra quyết định là ?",
+        options: [
+            "A. Chọn phương án tốt nhất và quyết định",
+            "B. Xác định mục tiêu",
+            "C. Phân tích, nhận diện vấn đề cần giải quyết",
+            "D. Tìm kiếm các phương án"
+        ],
+        answer: "C. Phân tích, nhận diện vấn đề cần giải quyết"
+    },
+    {
+        question: "Câu 12: Bước khó khăn nhất của tiến trình ra quyết định là",
+        options: [
+            "A. Chọn phương án tốt nhất và quyết định",
+            "B. Xác định mục tiêu",
+            "C. Phân tích, nhận diện vấn đề cần giải quyết",
+            "D. Tìm kiếm các phương án"
+        ],
+        answer: "A. Chọn phương án tốt nhất và quyết định"
+    },
+    {
+        question: "Câu 13: Bước thứ 2 trong tiến trình ra quyết định là ?",
+        options: [
+            "A. Phân tích",
+            "B. Thiết kế",
+            "C. Lựa chọn",
+            "D. Thực thi"
+        ],
+        answer: "B. Thiết kế"
+    },
+    {
+        question: "Câu 14: Bước thứ 3 trong tiến trình ra quyết định là ?",
+        options: [
+            "A. Phân tích",
+            "B. Thiết kế",
+            "C. Lựa chọn",
+            "D. Thực thi"
+        ],
+        answer: "C. Lựa chọn"
+    },
+    {
+        question: "Câu 15: Quyết định có cấu trúc (Structured Decision) là ?",
+        options: [
+            "A. Các quyết định mà người ra quyết định biết chắc chắn đúng",
+            "B. Các quyết định mà người ra quyết định biết là có nhiều câu trả lời gần đúng và không có cách nào để tìm ra câu trả lời chính xác nhất.",
+            "C. Các quyết định lặp đi lặp lại.",
+            "D. Các quyết định không xảy ra thường xuyên"
+        ],
+        answer: "A. Các quyết định mà người ra quyết định biết chắc chắn đúng"
+    },
+    {
+        question: "Câu 16: Quyết định không có cấu trúc (NonStructured Decision) là ?",
+        options: [
+            "A. Các quyết định mà người ra quyết định biết chắc chắn đúng",
+            "B. Các quyết định mà người ra quyết định biết là có nhiều câu trả lời gần đúng và không có cách nào để tìm ra câu trả lời chính xác nhất.",
+            "C. Các quyết định lặp đi lặp lại.",
+            "D. Các quyết định không xảy ra thường xuyên"
+        ],
+        answer: "B. Các quyết định mà người ra quyết định biết là có nhiều câu trả lời gần đúng và không có cách nào để tìm ra câu trả lời chính xác nhất."
+    },
+    {
+        question: "Câu 17: Một hệ hỗ trợ quyết định gồm có mấy thành phần chính ?",
+        options: [
+            "A. 1",
+            "B. 2",
+            "C. 3",
+            "D. 4"
+        ],
+        answer: "C. 3"
+    },
+    {
+        question: "Câu 18: Một hệ hỗ trợ quyết định gồm có ba thành phần chính, là những thành phần nào trong các thành phần sau đây",
+        options: [
+            "A. Quản lý dữ liệu",
+            "B. Quản lý mô hình",
+            "C. Quản lý giao diện người dùng",
+            "D. Cả 3 thành phần trên"
+        ],
+        answer: "D. Cả 3 thành phần trên"
+    },
+    {
+        question: "Câu 19: TPS – Transaction Processing Systems là ?",
+        options: [
+            "A. Hệ thống xử lý tác nghiệp",
+            "B. Hệ thống thông tin quản lý",
+            "C. Hệ thống trợ giúp ra quyết định",
+            "D. Hệ chuyên gia"
+        ],
+        answer: "A. Hệ thống xử lý tác nghiệp"
+    },
+    {
+        question: "Câu 20: MIS- Management Information Systems là gì ?",
+        options: [
+            "A. Hệ thống xử lý tác nghiệp",
+            "B. Hệ thống thông tin quản lý",
+            "C. Hệ thống trợ giúp ra quyết định",
+            "D. Hệ chuyên gia"
+        ],
+        answer: "B. Hệ thống thông tin quản lý"
+    },
+    {
+        question: "Câu 21: Quản trị dữ liệu là gì ?",
+        options: [
+            "A. Bao gồm các CSDL chứa dữ liệu liên quan đến một tình huống và được quản lý bởi phần mềm là hệ quản trị CSDL",
+            "B. Cho phép khai thác và quản lý các mô hình định lượng (xử lý) khác nhau, cung cấp khả năng phân tích cho hệ thống.",
+            "C. Cung cấp giao diện cho người dùng để liên lạc và ra lệnh cho Hệ hỗ trợ quyết định",
+            "D. Hoạt động như 1 thành phần độc lập, hoặc có thể trợ giúp cho bất kỳ 1 hệ thống nào trong 3 hệ thống nói trên"
+        ],
+        answer: "A. Bao gồm các CSDL chứa dữ liệu liên quan đến một tình huống và được quản lý bởi phần mềm là hệ quản trị CSDL"
+    },
+    {
+        question: "Câu 22: Quản trị mô hình là gì ?",
+        options: [
+            "A. Bao gồm các CSDL chứa dữ liệu liên quan đến một tình huống và được quản lý bởi phần mềm là hệ quản trị CSDL",
+            "B. Cho phép khai thác và quản lý các mô hình định lượng (xử lý) khác nhau, cung cấp khả năng phân tích cho hệ thống.",
+            "C. Cung cấp giao diện cho người dùng để liên lạc và ra lệnh cho Hệ hỗ trợ quyết định",
+            "D. Hoạt động như 1 thành phần độc lập, hoặc có thể trợ giúp cho bất kỳ 1 hệ thống nào trong 3 hệ thống nói trên"
+        ],
+        answer: "B. Cho phép khai thác và quản lý các mô hình định lượng (xử lý) khác nhau, cung cấp khả năng phân tích cho hệ thống."
+    },
+    {
+        question: "Câu 23: Quản trị đối thoại là gì ?",
+        options: [
+            "A. Bao gồm các CSDL chứa dữ liệu liên quan đến một tình huống và được quản lý bởi phần mềm là hệ quản trị CSDL",
+            "B. Cho phép khai thác và quản lý các mô hình định lượng (xử lý) khác nhau, cung cấp khả năng phân tích cho hệ thống.",
+            "C. Cung cấp giao diện cho người dùng để liên lạc và ra lệnh cho Hệ hỗ trợ quyết định",
+            "D. Hoạt động như 1 thành phần độc lập, hoặc có thể trợ giúp cho bất kỳ 1 hệ thống nào trong 3 hệ thống nói trên"
+        ],
+        answer: "C. Cung cấp giao diện cho người dùng để liên lạc và ra lệnh cho Hệ hỗ trợ quyết định"
+    },
+    {
+        question: "Câu 24: Quản trị tri thức là gì ?",
+        options: [
+            "A. Bao gồm các CSDL chứa dữ liệu liên quan đến một tình huống và được quản lý bởi phần mềm là hệ quản trị CSDL",
+            "B. Cho phép khai thác và quản lý các mô hình định lượng (xử lý) khác nhau, cung cấp khả năng phân tích cho hệ thống.",
+            "C. Cung cấp giao diện cho người dùng để liên lạc và ra lệnh cho Hệ hỗ trợ quyết định",
+            "D. Hoạt động như 1 thành phần độc lập, hoặc có thể trợ giúp cho bất kỳ 1 hệ thống nào trong 3 hệ thống nói trên"
+        ],
+        answer: "D. Hoạt động như 1 thành phần độc lập, hoặc có thể trợ giúp cho bất kỳ 1 hệ thống nào trong 3 hệ thống nói trên"
+    },
+    {
+        question: "Câu 25: Hiệu quả của quyết định phụ thuộc vào ?",
+        options: [
+            "A. Nắm vững các buớc của quá trình ra quyết định",
+            "B. Vận dụng nhuần nhuyễn các bước của quá trình ra quyết định",
+            "C. Bảo đảm đầy đủ các điều kiện thực hiện quyết định",
+            "D. Tất cả điều đúng"
+        ],
+        answer: "D. Tất cả điều đúng"
+    },
+    {
+        question: "Câu 26: Lựa chọn mô hình ra quyết định phụ thuộc vào ?",
+        options: [
+            "A. Tính cách nhà quản trị",
+            "B. Ý muốn của đa số nhân viên",
+            "C. Năng lực nhà quản trị",
+            "D. Nhiều yếu tố khác nhau"
+        ],
+        answer: "D. Nhiều yếu tố khác nhau"
+    },
+    {
+        question: "Câu 27: Hiệu quả của quyết định phụ thuộc vào ?",
+        options: [
+            "A. Nắm vững các buớc của quá trình ra quyết định",
+            "B. Vận dụng nhuần nhuyễn các bước của quá trình ra quyết định",
+            "C. Bảo đảm đầy đủ các điều kiện thực hiện quyết định",
+            "D. Tất cả điều đúng"
+        ],
+        answer: "D. Tất cả điều đúng"
+    },
+    {
+        question: "Câu 28: Decision Support Systems có nghĩa là gì ?",
+        options: [
+            "A. Hệ chuyên gia",
+            "B. Hệ trợ giúp ra quyết định",
+            "C. Hệ tri thức",
+            "D. Hệ quản trị CSDL"
+        ],
+        answer: "D. Hệ quản trị CSDL"
+    },
+    {
+        question: "Câu 29: Những kỹ năng ra quyết định bao gồm ?",
+        options: [
+            "A. Quyết định đúng thẩm quyền",
+            "B. Phải ngắn gọn, kịp thời, chính xác",
+            "C. Phải có tính pháp lý",
+            "D. Tất cả các kỹ năng trên"
+        ],
+        answer: "D. Tất cả các kỹ năng trên"
+    },
+    {
+        question: "Câu 30: Ra quyết định theo phong cách độc đoán sẽ ?",
+        options: [
+            "A. Không có lợi trong mọi trường hợp",
+            "B. Không được cấp dưới ủng hộ khi thực thi quyết định",
+            "C. Gặp sai lầm trong giải quyết vấn đề",
+            "D. Không phát huy được tính sáng tạo của nhân viên trong quá trình ra quyết định"
+        ],
+        answer: "D. Không phát huy được tính sáng tạo của nhân viên trong quá trình ra quyết định"
+    },
+        ],
+            "Phần 2 (Câu 31-60)": [
+                        {
+        question: "Câu 31: Qúa trình ra quyết định có mấy giai đoạn?",
+        options: [
+            "A. 2",
+            "B. 3",
+            "C. 4",
+            "D. 5"
+        ],
+        answer: "C. 4"
+    },
+    {
+        question: "Câu 32: Qúa trình ra quyết định – giai đoạn tìm hiểu là?",
+        options: [
+            "A. Phát biểu mô hình, đặt các tiêu chuẩn chọn, tìm các phương án chọn, dự đoán và đo kết quả ra",
+            "B. Các mục tiêu, tập hợp dữ liệu, định hình bài toán, phân loại vấn đề, trình bày bài toán",
+            "C. Tính toán theo mô hình, phân tích độ phù hợp, chọn phương án tốt (nhất), lập kế hoạch thực hiện, thiết kế một hệ thống điều khiển",
+            "D. Tất cả các đáp án trên"
+        ],
+        answer: "B. Các mục tiêu, tập hợp dữ liệu, định hình bài toán, phân loại vấn đề, trình bày bài toán"
+    },
+    {
+        question: "Câu 33: Qúa trình ra quyết định – Giai đoạn phân tích là?",
+        options: [
+            "A. Phát biểu mô hình, đặt các tiêu chuẩn chọn, tìm các phương án chọn, dự đoán và đo kết quả ra",
+            "B. Các mục tiêu, tập hợp dữ liệu, định hình bài toán, phân loại vấn đề, trình bày bài toán",
+            "C. Tính toán theo mô hình, phân tích độ phù hợp, chọn phương án tốt (nhất), lập kế hoạch thực hiện, thiết kế một hệ thống điều khiển",
+            "D. Tất cả các đáp án trên"
+        ],
+        answer: "A. Phát biểu mô hình, đặt các tiêu chuẩn chọn, tìm các phương án chọn, dự đoán và đo kết quả ra"
+    },
+    {
+        question: "Câu 34: Qúa trình ra quyết định – Giai đoạn lựa chọn là?",
+        options: [
+            "A. Phát biểu mô hình, đặt các tiêu chuẩn chọn, tìm các phương án chọn, dự đoán và đo kết quả ra",
+            "B. Các mục tiêu, tập hợp dữ liệu, định hình bài toán, phân loại vấn đề, trình bày bài toán",
+            "C. Tính toán theo mô hình, phân tích độ phù hợp, chọn phương án tốt (nhất), lập kế hoạch thực hiện, thiết kế một hệ thống điều khiển",
+            "D. Tất cả các đáp án trên"
+        ],
+        answer: "C. Tính toán theo mô hình, phân tích độ phù hợp, chọn phương án tốt (nhất), lập kế hoạch thực hiện, thiết kế một hệ thống điều khiển"
+    },
+    {
+        question: "Câu 35: Môi trường ra quyết định phụ thuộc vào các yếu tố nào sau đây?",
+        options: [
+            "A. Các yếu tố tác động",
+            "B. Các yếu tố tổ chức",
+            "C. Các yếu tố ngoại cảnh",
+            "D. Tác động – Tổ chức – Ngoại cảnh – Thông tin- Các mục tiêu quản lý"
+        ],
+        answer: "D. Tác động – Tổ chức – Ngoại cảnh – Thông tin- Các mục tiêu quản lý"
+    },
+    {
+        question: "Câu 36: Môi trường ra quyết định phụ thuộc vào bao nhiêu yếu tố?",
+        options: [
+            "A. 3",
+            "B. 4",
+            "C. 5",
+            "D. 6"
+        ],
+        answer: "C. 5"
+    },
+    {
+        question: "Câu 37: Môi trường ra quyết định – Các yếu tố tác động là?",
+        options: [
+            "A. Trực tiếp, dễ nhìn thấy như: Hạn chế về tài nguyên, điều kiện vật lý và các tham số chức năng ảnh hưởng đến hiệu quả",
+            "B. Điều kiện xã hội, ý thức chấp hành, hành vi văn hóa, thái độ và nhân cách",
+            "C. Pháp luật, các quy định cần tuân thủ",
+            "D. Thông tin tỉ mỉ, tổng hợp, đa dạng"
+        ],
+        answer: "A. Trực tiếp, dễ nhìn thấy như: Hạn chế về tài nguyên, điều kiện vật lý và các tham số chức năng ảnh hưởng đến hiệu quả"
+    },
+    {
+        question: "Câu 38: Môi trường ra quyết định – Các yếu tố tổ chức là ?",
+        options: [
+            "A. Chính sách",
+            "B. Con người",
+            "C. Chính sách – Cấu trúc- Hình ảnh – Con người",
+            "D. Tổ chức"
+        ],
+        answer: "C. Chính sách – Cấu trúc- Hình ảnh – Con người"
+    },
+    {
+        question: "Câu 39: Môi trường ra quyết định phụ - Các yếu tố ngoại cảnh là?",
+        options: [
+            "A. Pháp luật, các quy luật cần tuân tủ",
+            "B. Pháp luật, các quy luật cần tuân thủ - Kinh tế - môi trường – Thị trường – Đòi hỏi của khách hàng, nhu cầu của khách hàng",
+            "C. Thị trường: Sự cạnh tranh, phát triển của công nghệ mới",
+            "D. Đòi hỏi của khách hàng, nhu cầu của khách hàng"
+        ],
+        answer: "B. Pháp luật, các quy luật cần tuân thủ - Kinh tế - môi trường – Thị trường – Đòi hỏi của khách hàng, nhu cầu của khách hàng"
+    },
+    {
+        question: "Câu 40: Môi trường ra quyết định – Các yếu tố thông tin là?",
+        options: [
+            "A. Khả năng thông tin: độ bảo mật, khả năng truyền thông, phương tiện lưu trữ, nguồn , kênh thông tin",
+            "B. Độ tin cây: Độ chính xác – cập nhật – chuẩn mực",
+            "C. Giải pháp: Thông tin tỉ mỉ, tổng hợp và đa dạng",
+            "D. Khả năng thông tin – Độ tin cậy – Giải pháp – Giá cả"
+        ],
+        answer: "D. Khả năng thông tin – Độ tin cậy – Giải pháp – Giá cả"
+    },
+        {
+        question: "Câu 41: Môi trường ra quyết định – Các mục tiêu quản lý là?",
+        options: [
+            "A. Sự vận hành: Kinh tế, hiệu quả, chất lượng",
+            "B. Vùng ảnh hưởng: Điều kiện tác nghiệp, truyền đạt trong tổ chức",
+            "C. Giải pháp: Thông tin tỉ mỉ, tổng hợp và đa dạng",
+            "D. Sự vận hành – Vùng ảnh hưởng – Sự giải quyết – Mức độ rõ ràng"
+        ],
+        answer: "D. Sự vận hành – Vùng ảnh hưởng – Sự giải quyết – Mức độ rõ ràng"
+    },
+    {
+        question: "Câu 42: Đánh giá các phương án chọn trong quá trình ra quyết định phụ thuộc bao nhiêu yếu tố chính?",
+        options: [
+            "A. 2",
+            "B. 3",
+            "C. 4",
+            "D. Không phụ thuộc vào yếu tố nào cả"
+        ],
+        answer: "B. 3"
+    },
+    {
+        question: "Câu 43: Đánh giá các phương án chọn trong quá trình ra quyết định phụ thuộc các yếu tố chính nào sau đây?",
+        options: [
+            "A. Trạng thái và định lượng của các yếu tố ảnh hưởng",
+            "B. Đặc trưng của đối tượng (định lượng, chủ quan, rõ, mờ )",
+            "C. Cấu trúc và độ phức tạp của hoàn cảnh được phân tích",
+            "D. Tất cả các đáp án trên"
+        ],
+        answer: "D. Tất cả các đáp án trên"
+    },
+    {
+        question: "Câu 44: Đánh giá các phương án chọn trong quá trình ra quyết định phụ thuộc các yếu tố chính nào sau đây?",
+        options: [
+            "A. Trạng thái và định lượng của các yếu tố ảnh hưởng",
+            "B. Đặc trưng của đối tượng (định lượng, chủ quan, rõ, mờ )",
+            "C. Cấu trúc và độ phức tạp của hoàn cảnh được phân tích",
+            "D. Tất cả các đáp án trên"
+        ],
+        answer: "D. Tất cả các đáp án trên"
+    },
+    {
+        question: "Câu 45: Ra quyết định là gì?",
+        options: [
+            "A. Ra quyết định là quá trình cân nhắc dẫn đến việc lựa chọn một phương án thực hiện trong số các phương án hiện có. Với việc đưa ra kết quả này phải dựa trên cơ sở của lý giải. Với quá trình tiến hành phân tích để tìm kiếm các lựa chọn tốt nhất. Được thực hiện với chủ thể có quyền và tác động đến kết quả phản ánh đối với quyết định",
+            "B. Ra quyết định là một phương án được lựa chọn trong số các phương án hiện có",
+            "C. Là hành vi sáng tạo của nhà quản trị nhằm định ra chương trình và tính chất hoạt động của tổ chức để giải quyết một vấn đề đã chín muồi, trên cơ sở hiểu biết các quy luật vận động khách quan của hệ thống",
+            "D. Không có đáp án nào chính xác"
+        ],
+        answer: "A. Ra quyết định là quá trình cân nhắc dẫn đến việc lựa chọn một phương án thực hiện trong số các phương án hiện có. Với việc đưa ra kết quả này phải dựa trên cơ sở của lý giải. Với quá trình tiến hành phân tích để tìm kiếm các lựa chọn tốt nhất. Được thực hiện với chủ thể có quyền và tác động đến kết quả phản ánh đối với quyết định"
+    },
+    {
+        question: "Câu 46: DGMS- Hệ thống quản trị và tạo sinh hội thoại viết tắt của?",
+        options: [
+            "A. Digital Generation and Management System",
+            "B. Dialog Generation and Management System",
+            "C. Dialog Generation and Management Structure",
+            "D. Không có đáp án chính xác"
+        ],
+        answer: "B. Dialog Generation and Management System"
+    },
+    {
+        question: "Câu 47: UIMS - Hệ quản trị giao diện người dùng viết tắt của?",
+        options: [
+            "A. User Interface Metting System",
+            "B. User Interface Management System",
+            "C. User Information Management System",
+            "D. Không có đáp án chính xác"
+        ],
+        answer: "B. User Interface Management System"
+    },
+    {
+        question: "Câu 48: Các chức năng cơ bản của hệ quản trị CSDL",
+        options: [
+            "A. Lưu trữ",
+            "B. Tìm kiếm",
+            "C. Điều khiển",
+            "D. Tất cả các đáp án trên"
+        ],
+        answer: "D. Tất cả các đáp án trên"
+    },
+    {
+        question: "Câu 49: CSDL của hệ hỗ trợ quyết định bao gồm:",
+        options: [
+            "A. Dữ liệu ngoài",
+            "B. Dữ liệu riêng",
+            "C. Dữ liệu trong",
+            "D. Tất cả các đáp án trên"
+        ],
+        answer: "D. Tất cả các đáp án trên"
+    },
+    {
+        question: "Câu 50: CSDL của hệ hỗ trợ quyết định – dữ liệu riêng là:",
+        options: [
+            "A. Dữ liệu lấy từ hệ thống và xử lý các công việc của tổ chức, từ các bộ phận nghiệp vụ như tài chính, vật tư, sản xuất",
+            "B. Dữ liệu chuyển vào hệ thống khi sử dụng Hệ hỗ trợ quyết định",
+            "C. Dữ liệu của người ra quyết định được sử dụng trong những tình huống cụ thể, xác định các giải pháp khác nhau với cùng một bài toán",
+            "D. Tất cả các đáp án trên"
+        ],
+        answer: "C. Dữ liệu của người ra quyết định được sử dụng trong những tình huống cụ thể, xác định các giải pháp khác nhau với cùng một bài toán"
+    },
+    {
+        question: "Câu 51: CSDL của hệ hỗ trợ quyết định – dữ liệu ngoài là?",
+        options: [
+            "A. Dữ liệu lấy từ hệ thống và xử lý các công việc của tổ chức, từ các bộ phận nghiệp vụ như tài chính, vật tư, sản xuất",
+            "B. Dữ liệu chuyển vào hệ thống khi sử dụng Hệ hỗ trợ quyết định",
+            "C. Dữ liệu của người ra quyết định được sử dụng trong những tình huống cụ thể, xác định các giải pháp khác nhau với cùng một bài toán",
+            "D. Tất cả các đáp án trên"
+        ],
+        answer: "B. Dữ liệu chuyển vào hệ thống khi sử dụng Hệ hỗ trợ quyết định"
+    },
+    {
+        question: "Câu 52: CSDL của hệ hỗ trợ quyết định – dữ liệu trong là?",
+        options: [
+            "A. Dữ liệu lấy từ hệ thống và xử lý các công việc của tổ chức, từ các bộ phận nghiệp vụ như tài chính, vật tư, sản xuất",
+            "B. Dữ liệu chuyển vào hệ thống khi sử dụng Hệ hỗ trợ quyết định",
+            "C. Dữ liệu của người ra quyết định được sử dụng trong những tình huống cụ thể, xác định các giải pháp khác nhau với cùng một bài toán",
+            "D. Tất cả các đáp án trên"
+        ],
+        answer: "A. Dữ liệu lấy từ hệ thống và xử lý các công việc của tổ chức, từ các bộ phận nghiệp vụ như tài chính, vật tư, sản xuất"
+    },
+    {
+        question: "Câu 53: Hệ con quản trị mô hình gồm các thành phần?",
+        options: [
+            "A. Cơ sở mô hình – Hệ quản trị cơ sở mô hình – Ngôn ngữ dùng trong mô hình – Danh mục mô hình – Thực hiện, tích hợp và điều khiển mô hình",
+            "B. Cơ sở mô hình – Hệ quản trị cơ sở mô hình – Ngôn ngữ dùng trong mô hình – Danh mục mô hình",
+            "C. Cơ sở mô hình – Hệ quản trị cơ sở mô hình – Ngôn ngữ dùng trong mô hình",
+            "D. Không có đáp án nào chính xác"
+        ],
+        answer: "A. Cơ sở mô hình – Hệ quản trị cơ sở mô hình – Ngôn ngữ dùng trong mô hình – Danh mục mô hình – Thực hiện, tích hợp và điều khiển mô hình"
+    },
+    {
+        question: "Câu 54: Mô hình chiến lược?",
+        options: [
+            "A. Cho mức quản lý trung gian, thời gian 1 tháng đến 2 năm, ở các phòng ban, nhằm trợ giúp xác định và điều phối các nguồn lực của tổ chức, như lập kế hoạch yêu cầu về lao động, quảng cáo, bán sản phẩm",
+            "B. Trợ giúp lập kế hoạch chiến lược quản lý ở mức cao nhất, phạm vi rộng, thời gian dài như: phát triển các mục tiêu chung, phân tích môi trường, phát triển công nghệ, phần mềm",
+            "C. Trợ giúp những hoạt động thường xuyên của tổ chức như lập thời gian biểu sản xuất, thống kê, bán sản phẩm",
+            "D. Sử dụng cho phân tích dữ liệu, xác định các giá trị của các biến, các tham số trong mô hình,... như cơ chế sinh ra số ngẫu nhiên, phân tích hồi quy"
+        ],
+        answer: "B. Trợ giúp lập kế hoạch chiến lược quản lý ở mức cao nhất, phạm vi rộng, thời gian dài như: phát triển các mục tiêu chung, phân tích môi trường, phát triển công nghệ, phần mềm"
+    },
+    {
+        question: "Câu 55: Mô hình chiến thuật?",
+        options: [
+            "A. Cho mức quản lý trung gian, thời gian 1 tháng đến 2 năm, ở các phòng ban, nhằm trợ giúp xác định và điều phối các nguồn lực của tổ chức, như lập kế hoạch yêu cầu về lao động, quảng cáo, bán sản phẩm",
+            "B. Trợ giúp lập kế hoạch chiến lược quản lý ở mức cao nhất, phạm vi rộng, thời gian dài như: phát triển các mục tiêu chung, phân tích môi trường, phát triển công nghệ, phần mềm",
+            "C. Trợ giúp những hoạt động thường xuyên của tổ chức như lập thời gian biểu sản xuất, thống kê, bán sản phẩm",
+            "D. Sử dụng cho phân tích dữ liệu, xác định các giá trị của các biến, các tham số trong mô hình,... như cơ chế sinh ra số ngẫu nhiên, phân tích hồi quy"
+        ],
+        answer: "A. Cho mức quản lý trung gian, thời gian 1 tháng đến 2 năm, ở các phòng ban, nhằm trợ giúp xác định và điều phối các nguồn lực của tổ chức, như lập kế hoạch yêu cầu về lao động, quảng cáo, bán sản phẩm"
+    },
+    {
+        question: "Câu 56: Mô hình tác nghiệp?",
+        options: [
+            "A. Cho mức quản lý trung gian, thời gian 1 tháng đến 2 năm, ở các phòng ban, nhằm trợ giúp xác định và điều phối các nguồn lực của tổ chức, như lập kế hoạch yêu cầu về lao động, quảng cáo, bán sản phẩm",
+            "B. Trợ giúp lập kế hoạch chiến lược quản lý ở mức cao nhất, phạm vi rộng, thời gian dài như: phát triển các mục tiêu chung, phân tích môi trường, phát triển công nghệ, phần mềm",
+            "C. Trợ giúp những hoạt động thường xuyên của tổ chức như lập thời gian biểu sản xuất, thống kê, bán sản phẩm",
+            "D. Sử dụng cho phân tích dữ liệu, xác định các giá trị của các biến, các tham số trong mô hình,... như cơ chế sinh ra số ngẫu nhiên, phân tích hồi quy"
+        ],
+        answer: "C. Trợ giúp những hoạt động thường xuyên của tổ chức như lập thời gian biểu sản xuất, thống kê, bán sản phẩm"
+    },
+    {
+        question: "Câu 57: Các khối tạo mô hình và các chương trình con?",
+        options: [
+            "A. Cho mức quản lý trung gian, thời gian 1 tháng đến 2 năm, ở các phòng ban, nhằm trợ giúp xác định và điều phối các nguồn lực của tổ chức, như lập kế hoạch yêu cầu về lao động, quảng cáo, bán sản phẩm",
+            "B. Trợ giúp lập kế hoạch chiến lược quản lý ở mức cao nhất, phạm vi rộng, thời gian dài như: phát triển các mục tiêu chung, phân tích môi trường, phát triển công nghệ, phần mềm",
+            "C. Trợ giúp những hoạt động thường xuyên của tổ chức như lập thời gian biểu sản xuất, thống kê, bán sản phẩm",
+            "D. Sử dụng cho phân tích dữ liệu, xác định các giá trị của các biến, các tham số trong mô hình,... như cơ chế sinh ra số ngẫu nhiên, phân tích hồi quy"
+        ],
+        answer: "D. Sử dụng cho phân tích dữ liệu, xác định các giá trị của các biến, các tham số trong mô hình,... như cơ chế sinh ra số ngẫu nhiên, phân tích hồi quy"
+    },
+    {
+        question: "Câu 58: Có mấy lớp người sử dụng trong hệ hỗ trợ quyết định?",
+        options: [
+            "A. 3",
+            "B. 2",
+            "C. 4",
+            "D. 5"
+        ],
+        answer: "B. 2"
+    },
+    {
+        question: "Câu 59: Các nhà quản lý sử dụng hệ hỗ trợ quyết định mong muốn gì?",
+        options: [
+            "A. Hệ thân thiện",
+            "B. Muốn sử dụng những hệ thống phức tạp, hướng chủ đề, quan tâm đến những khả năng tính toán của hệ HTQĐ",
+            "C. Muốn hệ thân thiện, quan tâm nhiều đến sự trợ giúp phân tích của hệ",
+            "D. Muốn sử dụng những hệ thống phức tạp"
+        ],
+        answer: "C. Muốn hệ thân thiện, quan tâm nhiều đến sự trợ giúp phân tích của hệ"
+    },
+    {
+        question: "Câu 60: Các nhà chuyên môn sử dụng hệ hỗ trợ quyết định mong muốn gì?",
+        options: [
+            "A. Hệ thân thiện",
+            "B. Muốn sử dụng những hệ thống phức tạp, hướng chủ đề, quan tâm đến những khả năng tính toán của hệ HTQĐ",
+            "C. Muốn hệ thân thiện, quan tâm nhiều đến sự trợ giúp phân tích của hệ",
+            "D. Muốn sử dụng những hệ thống phức tạp"
+        ],
+        answer: "B. Muốn sử dụng những hệ thống phức tạp, hướng chủ đề, quan tâm đến những khả năng tính toán của hệ HTQĐ"
+    },
+            ],
+            "Phần 3 (Câu 61 - 90)": [
+        {
+        question: "Câu 61: Hãy trình bày khái niệm về mô hình?",
+        options: [
+            "A. Mô hình là một biểu diễn đơn giản hóa hoặc tóm lược hiện thực",
+            "B. Là bản sao vật lý của hệ thống, chỉ khác nhau về tỷ lệ so với nguyên bản",
+            "C. Không hoàn toàn giống thể giới thực, nhưng có dáng điệu giống như hệ thống thực và được xem là một biểu diễn tượng trưng cho thế giới thực",
+            "D. Tất cả đều sai"
+        ],
+        answer: "A. Mô hình là một biểu diễn đơn giản hóa hoặc tóm lược hiện thực"
+    },
+    {
+        question: "Câu 62: Một hộ ở Bát Tràng sản xuất 2 loại sản phẩm là bát và lọ hoa. Để sản xuất một chiếc bát cần 0,5 kg đất cao lanh và một giờ để làm, đem lại mức lãi 4000 đồng; Để sản xuất một lọ hoa cần 1kg đất cao lanh và 0,5 giờ để làm, đem lại mức lãi 3000 đồng. Với lượng nguyên liệu là 50kg và thời gian 70 giờ thì phải sản xuất bao nhiêu chiếc mỗi loại để thu được tổng số tiền lãi cao nhất?",
+        options: [
+            "A. Sản xuất 0 bát, 0 lọ hoa",
+            "B. Sản xuất 0 bát, 50 lọ hoa",
+            "C. Sản xuất 60 bát, 20 lọ hoa",
+            "D. Sản xuất 70 bát, 0 lọ hoa"
+        ],
+        answer: "C. Sản xuất 60 bát, 20 lọ hoa"
+    },
+    {
+        question: "Câu 63: Xí nghiệp ABC ở Gia Lâm sản xuất hai loại sản phẩm bằng da là cặp sách và ba lô. Một chiếc cặp sách sản xuất mất 2 giờ và lãi 20000 đồng; Một chiếc ba lô sản xuất mất 1 giờ và lãi 15000 đồng. Biết xí nghiệp có 125 công nhân, mỗi công nhân làm việc 8 giờ/ ngày. Nguyên liệu da đủ để sản xuất 800 sản phẩm mỗi ngày và trong mỗi ngày chỉ có 400 khóa cặp, 700 khóa ba lô. Tìm số sản phẩm mỗi loại phải sản xuất trong 1 ngày để có lãi nhiều nhất?",
+        options: [
+            "A. Xí nghiệp cần sản xuất 200 cặp sách và 600 ba lô trong 1 ngày",
+            "B. Xí nghiệp cần sản xuất 400 cặp sách và 0 ba lô trong 1 ngày",
+            "C. Xí nghiệp cần sản xuất 400 cặp sách và 200 ba lô trong 1 ngày",
+            "D. Xí nghiệp cần sản xuất 100 cặp sách và 700 ba lô trong 1 ngày"
+        ],
+        answer: "A. Xí nghiệp cần sản xuất 200 cặp sách và 600 ba lô trong 1 ngày"
+    },
+    {
+        question: "Câu 64: Mô hình động?",
+        options: [
+            "A. Cần ra quyết định trong 1 tình huống tức thời của hệ thống, với giả định rằng hệ ổn định trong quá trình phân tích",
+            "B. Để đánh giá các kịch bản thay đổi theo thời gian, cho tương lai như giá cả, phí tổn, lợi nhuận trong năm tới",
+            "C. Trong việc ra quyết định với giả thiết chắc chắn, thông tin đầy đủ, có sẵn, người ra quyết định biết chính xác kết quả mỗi quá trình sẽ xảy ra và giả thiết rằng chỉ có 1 kết quả cho mỗi sự lựa chọn",
+            "D. Khi giả thiết không chắc chắn, thông tin không đầy đủ thì việc ra quyết định khó khăn. Do đó, cần phải cố gắng tránh sự không chắc chắn"
+        ],
+        answer: "B. Để đánh giá các kịch bản thay đổi theo thời gian, cho tương lai như giá cả, phí tổn, lợi nhuận trong năm tới"
+    },
+    {
+        question: "Câu 65: Mô hình chắc chắn?",
+        options: [
+            "A. Cần ra quyết định trong 1 tình huống tức thời của hệ thống, với giả định rằng hệ ổn định trong quá trình phân tích",
+            "B. Để đánh giá các kịch bản thay đổi theo thời gian, cho tương lai như giá cả, phí tổn, lợi nhuận trong năm tới",
+            "C. Trong việc ra quyết định với giả thiết chắc chắn, thông tin đầy đủ, có sẵn, người ra quyết định biết chính xác kết quả mỗi quá trình sẽ xảy ra và giả thiết rằng chỉ có 1 kết quả cho mỗi sự lựa chọn",
+            "D. Khi giả thiết không chắc chắn, thông tin không đầy đủ thì việc ra quyết định khó khăn. Do đó, cần phải cố gắng tránh sự không chắc chắn"
+        ],
+        answer: "C. Trong việc ra quyết định với giả thiết chắc chắn, thông tin đầy đủ, có sẵn, người ra quyết định biết chính xác kết quả mỗi quá trình sẽ xảy ra và giả thiết rằng chỉ có 1 kết quả cho mỗi sự lựa chọn"
+    },
+    {
+        question: "Câu 66: Mô hình không chắc chắn?",
+        options: [
+            "A. Cần ra quyết định trong 1 tình huống tức thời của hệ thống, với giả định rằng hệ ổn định trong quá trình phân tích",
+            "B. Để đánh giá các kịch bản thay đổi theo thời gian, cho tương lai như giá cả, phí tổn, lợi nhuận trong năm tới",
+            "C. Trong việc ra quyết định với giả thiết chắc chắn, thông tin đầy đủ, có sẵn, người ra quyết định biết chính xác kết quả mỗi quá trình sẽ xảy ra và giả thiết rằng chỉ có 1 kết quả cho mỗi sự lựa chọn",
+            "D. Khi giả thiết không chắc chắn, thông tin không đầy đủ thì việc ra quyết định khó khăn. Do đó, cần phải cố gắng tránh sự không chắc chắn"
+        ],
+        answer: "D. Khi giả thiết không chắc chắn, thông tin không đầy đủ thì việc ra quyết định khó khăn. Do đó, cần phải cố gắng tránh sự không chắc chắn"
+    },
+    {
+        question: "Câu 67: Mô hình ra quyết định mạo hiểm?",
+        options: [
+            "A. Người ra quyết định phải sử dụng nhiều kỹ thuật để phân tích, đánh giá mức độ mạo hiểm cho mỗi giải pháp (ví dụ trong kinh doanh)",
+            "B. Để đánh giá các kịch bản thay đổi theo thời gian, cho tương lai như giá cả, phí tổn, lợi nhuận trong năm tới",
+            "C. Trong việc ra quyết định với giả thiết chắc chắn, thông tin đầy đủ, có sẵn, người ra quyết định biết chính xác kết quả mỗi quá trình sẽ xảy ra và giả thiết rằng chỉ có 1 kết quả cho mỗi sự lựa chọn",
+            "D. Khi giả thiết không chắc chắn, thông tin không đầy đủ thì việc ra quyết định khó khăn. Do đó, cần phải cố gắng tránh sự không chắc chắn"
+        ],
+        answer: "A. Người ra quyết định phải sử dụng nhiều kỹ thuật để phân tích, đánh giá mức độ mạo hiểm cho mỗi giải pháp (ví dụ trong kinh doanh)"
+    },
+    {
+        question: "Câu 68: Mô hình bảng quyết định, cây quyết định?",
+        options: [
+            "A. Tìm giải pháp tốt nhất trong một số ít các phương án chọn",
+            "B. Tìm giải pháp tốt nhất trong số lớn (vô hạn) các giải pháp, sử dụng quá trình cải tiến từng bước",
+            "C. Tìm giải pháp tốt nhất trong một số bước bằng sử dụng công thức thống kê",
+            "D. Tìm giải pháp 'đủ tốt' hoặc tốt nhất trong số các giải pháp được kiểm tra, sử dụng thử nghiệm"
+        ],
+        answer: "A. Tìm giải pháp tốt nhất trong một số ít các phương án chọn"
+    },
+    {
+        question: "Câu 69.1: Mô hình quy hoạch toán học, quy hoạch tuyến tính, mô hình mạng?",
+        options: [
+            "A. Tìm giải pháp tốt nhất trong một số ít các phương án chọn",
+            "B. Tìm giải pháp tốt nhất trong số lớn (vô hạn) các giải pháp, sử dụng quá trình cải tiến từng bước",
+            "C. Tìm giải pháp tốt nhất trong một số bước bằng sử dụng công thức thống kê",
+            "D. Tìm giải pháp 'đủ tốt' hoặc tốt nhất trong số các giải pháp được kiểm tra, sử dụng thử nghiệm"
+        ],
+        answer: "B. Tìm giải pháp tốt nhất trong số lớn (vô hạn) các giải pháp, sử dụng quá trình cải tiến từng bước"
+    },
+    {
+        question: "Câu 69.2: Các mô hình thống kê?",
+        options: [
+            "A. Tìm giải pháp tốt nhất trong một số ít các phương án chọn",
+            "B. Tìm giải pháp tốt nhất trong số lớn (vô hạn) các giải pháp, sử dụng quá trình cải tiến từng bước",
+            "C. Tìm giải pháp tốt nhất trong một số bước bằng sử dụng công thức thống kê",
+            "D. Tìm giải pháp 'đủ tốt' hoặc tốt nhất trong số các giải pháp được kiểm tra, sử dụng thử nghiệm"
+        ],
+        answer: "C. Tìm giải pháp tốt nhất trong một số bước bằng sử dụng công thức thống kê"
+    },
+    {
+        question: "Câu 70: Mô hình mô phỏng?",
+        options: [
+            "A. Tìm giải pháp tốt nhất trong một số ít các phương án chọn",
+            "B. Tìm giải pháp tốt nhất trong số lớn (vô hạn) các giải pháp, sử dụng quá trình cải tiến từng bước",
+            "C. Tìm giải pháp tốt nhất trong một số bước bằng sử dụng công thức thống kê",
+            "D. Tìm giải pháp 'đủ tốt' hoặc tốt nhất trong số các giải pháp được kiểm tra, sử dụng thử nghiệm"
+        ],
+        answer: "D. Tìm giải pháp 'đủ tốt' hoặc tốt nhất trong số các giải pháp được kiểm tra, sử dụng thử nghiệm"
+    },
+    {
+        question: "Câu 71: Các mô hình Heuristic và hệ chuyên gia?",
+        options: [
+            "A. Tìm giải pháp 'đủ tốt' bằng cách sử dụng các luật",
+            "B. Tìm giải pháp tốt nhất trong số lớn (vô hạn) các giải pháp, sử dụng quá trình cải tiến từng bước",
+            "C. Tìm giải pháp tốt nhất trong một số bước bằng sử dụng công thức thống kê",
+            "D. Tìm giải pháp 'đủ tốt' hoặc tốt nhất trong số các giải pháp được kiểm tra, sử dụng thử nghiệm"
+        ],
+        answer: "A. Tìm giải pháp 'đủ tốt' bằng cách sử dụng các luật"
+    },
+    {
+        question: "Câu 72: Khi nào sử dụng tối ưu tuyến tính?",
+        options: [
+            "A. Khi số lượng các phương án chọn lớn (có thể vô hạn) thì không thể giải bằng bảng quyết định",
+            "B. Ở những Hệ hỗ trợ quyết định có các tình huống nửa cấu trúc, phi cấu trúc thì khó biểu diễn bằng mô hình tối ưu hoặc các mô hình toán học khác",
+            "C. Khi gặp những vấn đề hết sức phức tạp, mà việc tìm ra giải pháp tối ưu là không thể với điều kiện thời gian và kinh phí cho phép, việc mô phỏng cũng kéo dài và phức tạp, có thể nghĩ đến heuristic để tìm ra giải pháp thỏa mãn 'đủ tốt' (90-99%)",
+            "D. Khi chỉ có một số nhỏ các phương án chọn, có một đích thì có thể biểu diển bài toán dưới dạng bảng hoặc mạng"
+        ],
+        answer: "A. Khi số lượng các phương án chọn lớn (có thể vô hạn) thì không thể giải bằng bảng quyết định"
+    },
+    {
+        question: "Câu 73: Khi nào sử dụng mô phỏng?",
+        options: [
+            "A. Khi số lượng các phương án chọn lớn (có thể vô hạn) thì không thể giải bằng bảng quyết định",
+            "B. Ở những Hệ hỗ trợ quyết định có các tình huống nửa cấu trúc, phi cấu trúc thì khó biểu diễn bằng mô hình tối ưu hoặc các mô hình toán học khác",
+            "C. Khi gặp những vấn đề hết sức phức tạp, mà việc tìm ra giải pháp tối ưu là không thể với điều kiện thời gian và kinh phí cho phép, việc mô phỏng cũng kéo dài và phức tạp, có thể nghĩ đến heuristic để tìm ra giải pháp thỏa mãn 'đủ tốt' (90-99%)",
+            "D. Khi chỉ có một số nhỏ các phương án chọn, có một đích thì có thể biểu diển bài toán dưới dạng bảng hoặc mạng"
+        ],
+        answer: "B. Ở những Hệ hỗ trợ quyết định có các tình huống nửa cấu trúc, phi cấu trúc thì khó biểu diễn bằng mô hình tối ưu hoặc các mô hình toán học khác"
+    },
+    {
+        question: "Câu 74: Khi nào sử dụng Heuristic?",
+        options: [
+            "A. Khi số lượng các phương án chọn lớn (có thể vô hạn) thì không thể giải bằng bảng quyết định",
+            "B. Ở những Hệ hỗ trợ quyết định có các tình huống nửa cấu trúc, phi cấu trúc thì khó biểu diễn bằng mô hình tối ưu hoặc các mô hình toán học khác",
+            "C. Khi gặp những vấn đề hết sức phức tạp, mà việc tìm ra giải pháp tối ưu là không thể với điều kiện thời gian và kinh phí cho phép, việc mô phỏng cũng kéo dài và phức tạp, có thể nghĩ đến heuristic để tìm ra giải pháp thỏa mãn 'đủ tốt' (90-99%)",
+            "D. Khi chỉ có một số nhỏ các phương án chọn, có một đích thì có thể biểu diển bài toán dưới dạng bảng hoặc mạng"
+        ],
+        answer: "C. Khi gặp những vấn đề hết sức phức tạp, mà việc tìm ra giải pháp tối ưu là không thể với điều kiện thời gian và kinh phí cho phép, việc mô phỏng cũng kéo dài và phức tạp, có thể nghĩ đến heuristic để tìm ra giải pháp thỏa mãn 'đủ tốt' (90-99%)"
+    },
+    {
+        question: "Câu 75: Khi nào sử dụng cây quyết định?",
+        options: [
+            "A. Khi số lượng các phương án chọn lớn (có thể vô hạn) thì không thể giải bằng bảng quyết định",
+            "B. Ở những Hệ hỗ trợ quyết định có các tình huống nửa cấu trúc, phi cấu trúc thì khó biểu diễn bằng mô hình tối ưu hoặc các mô hình toán học khác",
+            "C. Khi gặp những vấn đề hết sức phức tạp, mà việc tìm ra giải pháp tối ưu là không thể với điều kiện thời gian và kinh phí cho phép, việc mô phỏng cũng kéo dài và phức tạp, có thể nghĩ đến heuristic để tìm ra giải pháp thỏa mãn 'đủ tốt' (90-99%)",
+            "D. Khi chỉ có một số nhỏ các phương án chọn, có một đích thì có thể biểu diển bài toán dưới dạng bảng hoặc mạng"
+        ],
+        answer: "D. Khi chỉ có một số nhỏ các phương án chọn, có một đích thì có thể biểu diển bài toán dưới dạng bảng hoặc mạng"
+    },
+    {
+        question: "Câu 76: Khi ra quyết định với độ chắc chắn chúng ta chọn mô hình nào?",
+        options: [
+            "A. Mô hình tối ưu tuyến tính",
+            "B. Mô hình mô phỏng, dự báo, Heuristic",
+            "C. Mô hình bảng quyết định (cây quyết định)",
+            "D. Tất cả các mô hình trên"
+        ],
+        answer: "A. Mô hình tối ưu tuyến tính"
+    },
+    {
+        question: "Câu 77: Khi ra quyết định với sự mạo hiểm chúng ta chọn mô hình nào?",
+        options: [
+            "A. Mô hình tối ưu tuyến tính",
+            "B. Mô hình mô phỏng, dự báo, Heuristic",
+            "C. Mô hình bảng quyết định (cây quyết định)",
+            "D. Tất cả các mô hình trên"
+        ],
+        answer: "B. Mô hình mô phỏng, dự báo, Heuristic"
+    },
+    {
+        question: "Câu 78: Phương pháp phán đoán là:",
+        options: [
+            "A. Dựa trên các ước tính mục tiêu và các ý kiến chuyên gia hơn là dữ liệu cứng, dùng cho dự báo dài hạn, đặc biệt là nơi các nhân tố ngoài giữ vai trò đáng kể",
+            "B. Gồm một số thí nghiệm, khảo sát mẫu nhằm tổng quát hóa toàn bộ hệ thống. Phương pháp này chỉ dựa trên dữ liệu, chủ yếu là dữ liệu quá khứ",
+            "C. Dáng điệu hoạt động của hệ thống trong quá khứ giúp ta hiểu dáng điệu trong tương lai (dự báo giá cả, thị trường chứng khoán)",
+            "D. Phân tích dữ liệu, kết hợp dữ liệu để tìm ra các mối quan hệ tiềm năng (datamining). Phương pháp này phức tạp, có nhiều biến, phải dùng kỹ thuật thống kê"
+        ],
+        answer: "C. Dáng điệu hoạt động của hệ thống trong quá khứ giúp ta hiểu dáng điệu trong tương lai (dự báo giá cả, thị trường chứng khoán)"
+    },
+    {
+        question: "Câu 79: Phương pháp đếm là:",
+        options: [
+            "A. Dựa trên các ước tính mục tiêu và các ý kiến chuyên gia hơn là dữ liệu cứng, dùng cho dự báo dài hạn, đặc biệt là nơi các nhân tố ngoài giữ vai trò đáng kể",
+            "B. Gồm một số thí nghiệm, khảo sát mẫu nhằm tổng quát hóa toàn bộ hệ thống. Phương pháp này chỉ dựa trên dữ liệu, chủ yếu là dữ liệu quá khứ",
+            "C. Dáng điệu hoạt động của hệ thống trong quá khứ giúp ta hiểu dáng điệu trong tương lai (dự báo giá cả, thị trường chứng khoán)",
+            "D. Phân tích dữ liệu, kết hợp dữ liệu để tìm ra các mối quan hệ tiềm năng (datamining). Phương pháp này phức tạp, có nhiều biến, phải dùng kỹ thuật thống kê"
+        ],
+        answer: "B. Gồm một số thí nghiệm, khảo sát mẫu nhằm tổng quát hóa toàn bộ hệ thống. Phương pháp này chỉ dựa trên dữ liệu, chủ yếu là dữ liệu quá khứ"
+    },
+    {
+        question: "Câu 80: Phương pháp phân tích theo chuỗi thời gian là:",
+        options: [
+            "A. Dựa trên các ước tính mục tiêu và các ý kiến chuyên gia hơn là dữ liệu cứng, dùng cho dự báo dài hạn, đặc biệt là nơi các nhân tố ngoài giữ vai trò đáng kể",
+            "B. Gồm một số thí nghiệm, khảo sát mẫu nhằm tổng quát hóa toàn bộ hệ thống. Phương pháp này chỉ dựa trên dữ liệu, chủ yếu là dữ liệu quá khứ",
+            "C. Dáng điệu hoạt động của hệ thống trong quá khứ giúp ta hiểu dáng điệu trong tương lai (dự báo giá cả, thị trường chứng khoán)",
+            "D. Phân tích dữ liệu, kết hợp dữ liệu để tìm ra các mối quan hệ tiềm năng (datamining). Phương pháp này phức tạp, có nhiều biến, phải dùng kỹ thuật thống kê"
+        ],
+        answer: "C. Dáng điệu hoạt động của hệ thống trong quá khứ giúp ta hiểu dáng điệu trong tương lai (dự báo giá cả, thị trường chứng khoán)"
+    },
+    {
+        question: "Câu 81: Phương pháp phương pháp nhân quả là:",
+        options: [
+            "A. Dựa trên các ước tính mục tiêu và các ý kiến chuyên gia hơn là dữ liệu cứng, dùng cho dự báo dài hạn, đặc biệt là nơi các nhân tố ngoài giữ vai trò đáng kể",
+            "B. Gồm một số thí nghiệm, khảo sát mẫu nhằm tổng quát hóa toàn bộ hệ thống. Phương pháp này chỉ dựa trên dữ liệu, chủ yếu là dữ liệu quá khứ",
+            "C. Dáng điệu hoạt động của hệ thống trong quá khứ giúp ta hiểu dáng điệu trong tương lai (dự báo giá cả, thị trường chứng khoán)",
+            "D. Phân tích dữ liệu, kết hợp dữ liệu để tìm ra các mối quan hệ tiềm năng (datamining). Phương pháp này phức tạp, có nhiều biến, phải dùng kỹ thuật thống kê"
+        ],
+        answer: "D. Phân tích dữ liệu, kết hợp dữ liệu để tìm ra các mối quan hệ tiềm năng (datamining). Phương pháp này phức tạp, có nhiều biến, phải dùng kỹ thuật thống kê"
+    },
+    {
+        question: "Câu 82: Ưu điểm của mô phỏng là:",
+        options: [
+            "A. Đơn giản, không phụ thuộc vào yếu tố thời gian, có những vấn đề liên quan đến 1 quãng thời gian dài, nhưng máy tính xử lý trong vài phút",
+            "B. Cho phép quan sát 1 lớp các tình huống, cho phép thử nghiệm theo kiểu thử sai",
+            "C. Giúp cho nhà quản lý hiểu rõ hệ thống, vì được xây dựng theo cách nhìn của nhà quản lý và cấu trúc quyết định của họ, mô phỏng có thể thực hiện với mọi vấn đề, mọi tập giá trị của các biến,...",
+            "D. Tất cả các ý trên"
+        ],
+        answer: "D. Tất cả các ý trên"
+    },
+    {
+        question: "Câu 83: Bất lợi của mô phỏng là:",
+        options: [
+            "A. Không đảm bảo giải pháp tối ưu",
+            "B. Quá trình mô phỏng chậm, tốn kém",
+            "C. Không thể dùng để giải các bài toán khác, khó tổng quát hóa",
+            "D. Mô phỏng nhiều khi làm cho nhà quản lý mất trực quan, phương án tối ưu xuất hiện trước mắt nhưng không nhận ra",
+            "E. Tất cả các ý trên"
+        ],
+        answer: "E. Tất cả các ý trên"
+    },
+    {
+        question: "Câu 84: AHP là một phương pháp định lượng do ai đề xuất?",
+        options: [
+            "A. Được đề xuất bởi Thomas L. Saaty (1980)",
+            "B. Được đề xuất bởi M.W.Davis",
+            "C. Được đề xuất bởi E. Turban",
+            "D. Được đề xuất bởi I.M. Makarov"
+        ],
+        answer: "A. Được đề xuất bởi Thomas L. Saaty (1980)"
+    },
+    {
+        question: "Câu 85: Ưu điểm của Heuristics là:",
+        options: [
+            "A. Đơn giản, dễ hiểu, dễ thực thi",
+            "B. Làm cho con người sáng tạo hơn, để giải quyết các vấn đề heuristics khác",
+            "C. Giảm thời gian tính toán, yêu cầu bộ nhớ",
+            "D. Thường đưa ra lời giải chấp nhận được,...",
+            "E. Tất cả các ý trên"
+        ],
+        answer: "E. Tất cả các ý trên"
+    },
+    {
+        question: "Câu 86: Phương pháp AHP gồm mấy bước chính",
+        options: [
+            "A. 3",
+            "B. 4",
+            "C. 1",
+            "D. 2"
+        ],
+        answer: "A. 3"
+    },
+    {
+        question: "Câu 87: Đặc điểm của AHP là gì",
+        options: [
+            "A. AHP sử dụng ý kiến chuyên gia",
+            "B. Không cần quá nhiều dữ liệu để phân tích",
+            "C. Cả hai ý trên",
+            "D. Tất cả đều sai"
+        ],
+        answer: "C. Cả hai ý trên"
+    },
+    {
+        question: "Câu 88: AHP trả lời các câu hỏi:",
+        options: [
+            "A. Nên chọn phương án nào?",
+            "B. Phương án nào tốt nhất?",
+            "C. Cả hai đáp án trên",
+            "D. Tất cả đều sai"
+        ],
+        answer: "C. Cả hai đáp án trên"
+    },
+    {
+        question: "Câu 89: AHP là phương pháp gì:",
+        options: [
+            "A. Định lượng",
+            "B. Toán học?",
+            "C. Tối ưu",
+            "D. Cây quyết định"
+        ],
+        answer: "A. Định lượng"
+    },
+    {
+        question: "Câu 90: Giai đoạn thực hiện trong quá trình thiết kế Hệ hỗ trợ quyết định chiếm bao nhiêu %",
+        options: [
+            "A. 5%",
+            "B. 15%",
+            "C. 25%",
+            "D. 10%"
+        ],
+        answer: "B. 15%"
+    }
+            ],
+            "Phần 4(Câu 91 - 120)": [
+        {
+        question: "Câu 91: Ngôn ngữ hành động (thao tác) trong Giao diện người dùng nhìn từ 2 phía (người và máy) là:",
+        options: [
+            "A. là các menu, trả lời một câu hỏi, chuyển đổi một cửa sổ màn hình hoặc soạn 1 câu lệnh. Một hay nhiều thiết bị vào được sử dụng để thực hiện hành động đó.",
+            "B. là những thông tin người dùng cần biết để giao tiếp với máy tính. Những kiến thức này người dùng đã có, hoặc có thể trong bảng tham khảo, hoặc là dãy các thông báo khi có yêu cầu.",
+            "C. người dùng diễn giải các hiển thị trên màn hình, xử lý nội dung và lập kế hoạch hành động tiếp.",
+            "D. thông tin đưa ra cho người dùng thông qua các thiết bị ra (màn hình, máy in, loa). Các thông tin này có dạng menu, văn bản, có thể tĩnh hoặc động, kiểu số hoặc ký hiệu"
+        ],
+        answer: "A. là các menu, trả lời một câu hỏi, chuyển đổi một cửa sổ màn hình hoặc soạn 1 câu lệnh. Một hay nhiều thiết bị vào được sử dụng để thực hiện hành động đó."
+    },
+    {
+        question: "Câu 92: Tri thức trong Giao diện người dùng nhìn từ 2 phía (người và máy) là:",
+        options: [
+            "A. có thể là các menu, trả lời một câu hỏi, chuyển đổi một cửa sổ màn hình hoặc soạn 1 câu lệnh. Một hay nhiều thiết bị vào được sử dụng để thực hiện hành động đó.",
+            "B. là những thông tin người dùng cần biết để giao tiếp với máy tính. Những kiến thức này người dùng đã có, hoặc có thể trong bảng tham khảo, hoặc là dãy các thông báo khi có yêu cầu.",
+            "C. người dùng diễn giải các hiển thị trên màn hình, xử lý nội dung và lập kế hoạch hành động tiếp.",
+            "D. thông tin đưa ra cho người dùng thông qua các thiết bị ra (màn hình, máy in, loa). Các thông tin này có dạng menu, văn bản, có thể tĩnh hoặc động, kiểu số hoặc ký hiệu"
+        ],
+        answer: "B. là những thông tin người dùng cần biết để giao tiếp với máy tính. Những kiến thức này người dùng đã có, hoặc có thể trong bảng tham khảo, hoặc là dãy các thông báo khi có yêu cầu."
+    },
+    {
+        question: "Câu 93: Phản ứng của người dùng trong Giao diện người dùng nhìn từ 2 phía (người và máy) là:",
+        options: [
+            "A. có thể là các menu, trả lời một câu hỏi, chuyển đổi một cửa sổ màn hình hoặc soạn 1 câu lệnh. Một hay nhiều thiết bị vào được sử dụng để thực hiện hành động đó.",
+            "B. là những thông tin người dùng cần biết để giao tiếp với máy tính. Những kiến thức này người dùng đã có, hoặc có thể trong bảng tham khảo, hoặc là dãy các thông báo khi có yêu cầu.",
+            "C. người dùng diễn giải các hiển thị trên màn hình, xử lý nội dung và lập kế hoạch hành động tiếp.",
+            "D. thông tin đưa ra cho người dùng thông qua các thiết bị ra (màn hình, máy in, loa). Các thông tin này có dạng menu, văn bản, có thể tĩnh hoặc động, kiểu số hoặc ký hiệu"
+        ],
+        answer: "C. người dùng diễn giải các hiển thị trên màn hình, xử lý nội dung và lập kế hoạch hành động tiếp."
+    },
+    {
+        question: "Câu 94: Máy tính trong Giao diện người dùng nhìn từ 2 phía (người và máy) là:",
+        options: [
+            "A. máy tính diễn dịch đầu vào của người dùng, thực hiện xử lý rồi đưa ra kết quả bằng ngôn ngữ hiển thị (máy tính sinh ra phần hiển thị đầu ra).",
+            "B. là những thông tin người dùng cần biết để giao tiếp với máy tính. Những kiến thức này người dùng đã có, hoặc có thể trong bảng tham khảo, hoặc là dãy các thông báo khi có yêu cầu.",
+            "C. người dùng diễn giải các hiển thị trên màn hình, xử lý nội dung và lập kế hoạch hành động tiếp.",
+            "D. thông tin đưa ra cho người dùng thông qua các thiết bị ra (màn hình, máy in, loa). Các thông tin này có dạng menu, văn bản, có thể tĩnh hoặc động, kiểu số hoặc ký hiệu"
+        ],
+        answer: "A. máy tính diễn dịch đầu vào của người dùng, thực hiện xử lý rồi đưa ra kết quả bằng ngôn ngữ hiển thị (máy tính sinh ra phần hiển thị đầu ra)."
+    },
+    {
+        question: "Câu 95: Hội thoại trong Giao diện người dùng nhìn từ 2 phía (người và máy) là:",
+        options: [
+            "A. như là 1 dãy các trao đổi hoặc tương tác giữa người và máy tính.",
+            "B. là những thông tin người dùng cần biết để giao tiếp với máy tính. Những kiến thức này người dùng đã có, hoặc có thể trong bảng tham khảo, hoặc là dãy các thông báo khi có yêu cầu.",
+            "C. người dùng diễn giải các hiển thị trên màn hình, xử lý nội dung và lập kế hoạch hành động tiếp.",
+            "D. thông tin đưa ra cho người dùng thông qua các thiết bị ra (màn hình, máy in, loa). Các thông tin này có dạng menu, văn bản, có thể tĩnh hoặc động, kiểu số hoặc ký hiệu"
+        ],
+        answer: "A. như là 1 dãy các trao đổi hoặc tương tác giữa người và máy tính."
+    },
+    {
+        question: "Câu 96: Chất lượng của giao diện trong một ứng dụng do ai quyết định?",
+        options: [
+            "A. do người dùng quyết định",
+            "B. do hệ thống quyết định",
+            "C. do người quản trị quyết định",
+            "D. do người lập trình quyết định"
+        ],
+        answer: "A. do người dùng quyết định"
+    },
+    {
+        question: "Câu 97: Một số yêu cầu quan trọng của giao diện người dùng là:",
+        options: [
+            "A. thiết kế màn hình giao diện người - máy",
+            "B. sử dụng màu sắc, mật độ thông tin",
+            "C. sử dụng các biểu tượng và ký hiệu, khuôn dạng hiểu thị thông tin, lựa chọn các thiết bị vào, ra.",
+            "D. tất cả các đáp án trên"
+        ],
+        answer: "D. tất cả các đáp án trên"
+    },
+    {
+        question: "Câu 98: Phương pháp tương tác menu là:",
+        options: [
+            "A. Người dùng chọn chức năng cần thực hiện từ danh sách các menu xuất hiện theo thứ tự logic, bắt đầu từ menu chính đến các menu con...",
+            "B. Người dùng đưa vào các lệnh như RUN, FIND,... bằng bàn phím hoặc các macro.",
+            "C. Các câu hỏi có thể xuất hiện dưới dạng mệnh đề hoặc lựa chọn từ các thành phần của menu. Câu trả lời cũng có thể chọn trong 1 menu.",
+            "D. Người dùng đưa dữ liệu vào theo 1 biểu mẫu được thiết kế trước, máy tính tính ra kết quả và người dùng lại yêu cầu các biểu mẫu tiếp theo."
+        ],
+        answer: "A. Người dùng chọn chức năng cần thực hiện từ danh sách các menu xuất hiện theo thứ tự logic, bắt đầu từ menu chính đến các menu con..."
+    },
+    {
+        question: "Câu 99: Phương pháp ngôn ngữ lệnh là:",
+        options: [
+            "A. Người dùng chọn chức năng cần thực hiện từ danh sách các menu xuất hiện theo thứ tự logic, bắt đầu từ menu chính đến các menu con...",
+            "B. Người dùng đưa vào các lệnh như RUN, FIND,... bằng bàn phím hoặc các macro.",
+            "C. Các câu hỏi có thể xuất hiện dưới dạng mệnh đề hoặc lựa chọn từ các thành phần của menu. Câu trả lời cũng có thể chọn trong 1 menu.",
+            "D. Người dùng đưa dữ liệu vào theo 1 biểu mẫu được thiết kế trước, máy tính tính ra kết quả và người dùng lại yêu cầu các biểu mẫu tiếp theo."
+        ],
+        answer: "B. Người dùng đưa vào các lệnh như RUN, FIND,... bằng bàn phím hoặc các macro."
+    },
+    {
+        question: "Câu 100: Phương pháp hỏi và trả lời là:",
+        options: [
+            "A. Người dùng chọn chức năng cần thực hiện từ danh sách các menu xuất hiện theo thứ tự logic, bắt đầu từ menu chính đến các menu con...",
+            "B. Người dùng đưa vào các lệnh như RUN, FIND,... bằng bàn phím hoặc các macro.",
+            "C. Các câu hỏi có thể xuất hiện dưới dạng mệnh đề hoặc lựa chọn từ các thành phần của menu. Câu trả lời cũng có thể chọn trong 1 menu.",
+            "D. Người dùng đưa dữ liệu vào theo 1 biểu mẫu được thiết kế trước, máy tính tính ra kết quả và người dùng lại yêu cầu các biểu mẫu tiếp theo."
+        ],
+        answer: "C. Các câu hỏi có thể xuất hiện dưới dạng mệnh đề hoặc lựa chọn từ các thành phần của menu. Câu trả lời cũng có thể chọn trong 1 menu."
+    },
+        {
+        question: "Câu 101: Phương pháp tương tác bằng biểu mẫu là:",
+        options: [
+            "A. Người dùng chọn chức năng cần thực hiện từ danh sách các menu xuất hiện theo thứ tự logic, bắt đầu từ menu chính đến các menu con...",
+            "B. Người dùng đưa vào các lệnh như RUN, FIND,... bằng bàn phím hoặc các macro.",
+            "C. Các câu hỏi có thể xuất hiện dưới dạng mệnh đề hoặc lựa chọn từ các thành phần của menu. Câu trả lời cũng có thể chọn trong 1 menu.",
+            "D. Người dùng đưa dữ liệu vào theo 1 biểu mẫu được thiết kế trước, máy tính tính ra kết quả và người dùng lại yêu cầu các biểu mẫu tiếp theo."
+        ],
+        answer: "D. Người dùng đưa dữ liệu vào theo 1 biểu mẫu được thiết kế trước, máy tính tính ra kết quả và người dùng lại yêu cầu các biểu mẫu tiếp theo."
+    },
+    {
+        question: "Câu 102: Phương pháp ngôn ngữ tự nhiên là:",
+        options: [
+            "A. Tương tác người-máy giống như hội thoại giữa con người với nhau. Ngày nay, công việc này được thực hiện chủ yếu bằng bàn phím, trong tương lai sẽ chuyển qua dạng hội thoại. Hạn chế cơ bản là máy tính không hiểu được ngôn ngữ tự nhiên. Tuy nhiên, khi các nghiên cứu trong trí tuệ nhân tạo được đẩy mạnh, thì sẽ nâng cao khả năng hội thoại bằng ngôn ngữ tự nhiên",
+            "B. Người dùng đưa vào các lệnh như RUN, FIND,... bằng bàn phím hoặc các macro.",
+            "C. Các câu hỏi có thể xuất hiện dưới dạng mệnh đề hoặc lựa chọn từ các thành phần của menu. Câu trả lời cũng có thể chọn trong 1 menu.",
+            "D. Người dùng đưa dữ liệu vào theo 1 biểu mẫu được thiết kế trước, máy tính tính ra kết quả và người dùng lại yêu cầu các biểu mẫu tiếp theo."
+        ],
+        answer: "A. Tương tác người-máy giống như hội thoại giữa con người với nhau. Ngày nay, công việc này được thực hiện chủ yếu bằng bàn phím, trong tương lai sẽ chuyển qua dạng hội thoại. Hạn chế cơ bản là máy tính không hiểu được ngôn ngữ tự nhiên. Tuy nhiên, khi các nghiên cứu trong trí tuệ nhân tạo được đẩy mạnh, thì sẽ nâng cao khả năng hội thoại bằng ngôn ngữ tự nhiên"
+    },
+    {
+        question: "Câu 103: Phương pháp thao tác đối tượng là:",
+        options: [
+            "A. Các đối tượng thường được biểu diễn qua các biểu tượng, và người dùng có thể thao tác trực tiếp, ví dụ: di chuyển, phóng to, thu nhỏ, chi tiết hóa chỉ thị...",
+            "B. Người dùng đưa vào các lệnh như RUN, FIND,... bằng bàn phím hoặc các macro.",
+            "C. Các câu hỏi có thể xuất hiện dưới dạng mệnh đề hoặc lựa chọn từ các thành phần của menu. Câu trả lời cũng có thể chọn trong 1 menu.",
+            "D. Người dùng đưa dữ liệu vào theo 1 biểu mẫu được thiết kế trước, máy tính tính ra kết quả và người dùng lại yêu cầu các biểu mẫu tiếp theo."
+        ],
+        answer: "A. Các đối tượng thường được biểu diễn qua các biểu tượng, và người dùng có thể thao tác trực tiếp, ví dụ: di chuyển, phóng to, thu nhỏ, chi tiết hóa chỉ thị..."
+    },
+    {
+        question: "Câu 104: Sử dụng đồ họa trong Hệ hỗ trợ quyết định gồm:",
+        options: [
+            "A. Các báo cáo: biểu đồ, đồ thị,...",
+            "B. Các thể hiện: đưa ra thông tin ngắn gọn trong cuộc họp, hội thảo",
+            "C. Quản lý vết trong khi thực hiện: các biểu đồ luồng thông tin, chức năng.",
+            "D. Phân tích, lập kế hoạch và lập lịch trình, câu lệnh, điều khiển và kết nối.",
+            "E. Tất cả các ý trên"
+        ],
+        answer: "E. Tất cả các ý trên"
+    },
+    {
+        question: "Câu 105: Cửa sổ trong giao diện đồ họa người dùng (GUI - Graphical User Interface) là:",
+        options: [
+            "A. Mỗi cửa sổ là một vùng của màn hình máy tính chứa văn bản, đồ họa, hình ảnh, chuyển động, hoặc cửa sổ khác. Nó có thể gối lên nhau, cuộn lại hoặc di chuyển.",
+            "B. Là hình ảnh nhỏ đại diện cho 1 cửa sổ đang tạm thời bị đóng lại, hoặc cho một số đối tượng khác. Kích vào biểu tượng thì cửa sổ đó hoạt động.",
+            "C. Chứa các thông tin bổ sung cho 1 cửa sổ màn hình, về 1 đối tượng nào đó. Khi đưa con trỏ vào thì đối tượng đó sẽ hoạt động.",
+            "D. Trong môi trường này, người dùng làm việc với nhiều cửa sổ xếp chồng lên nhau và các thành phần GUI khác. Người dùng có thể chuyển văn bản, đồ họa giữa các ứng dụng khác nhau. Môi trường này là cơ sở của công cụ xử lý tài liệu."
+        ],
+        answer: "A. Mỗi cửa sổ là một vùng của màn hình máy tính chứa văn bản, đồ họa, hình ảnh, chuyển động, hoặc cửa sổ khác. Nó có thể gối lên nhau, cuộn lại hoặc di chuyển."
+    },
+    {
+        question: "Câu 106: Biểu tượng trong giao diện đồ họa người dùng (GUI - Graphical User Interface) là:",
+        options: [
+            "A. Mỗi cửa sổ là một vùng của màn hình máy tính chứa văn bản, đồ họa, hình ảnh, chuyển động, hoặc cửa sổ khác. Nó có thể gối lên nhau, cuộn lại hoặc di chuyển.",
+            "B. Là hình ảnh nhỏ đại diện cho 1 cửa sổ đang tạm thời bị đóng lại, hoặc cho một số đối tượng khác. Kích vào biểu tượng thì cửa sổ đó hoạt động.",
+            "C. Chứa các thông tin bổ sung cho 1 cửa sổ màn hình, về 1 đối tượng nào đó. Khi đưa con trỏ vào thì đối tượng đó sẽ hoạt động.",
+            "D. Trong môi trường này, người dùng làm việc với nhiều cửa sổ xếp chồng lên nhau và các thành phần GUI khác. Người dùng có thể chuyển văn bản, đồ họa giữa các ứng dụng khác nhau. Môi trường này là cơ sở của công cụ xử lý tài liệu."
+        ],
+        answer: "B. Là hình ảnh nhỏ đại diện cho 1 cửa sổ đang tạm thời bị đóng lại, hoặc cho một số đối tượng khác. Kích vào biểu tượng thì cửa sổ đó hoạt động."
+    },
+    {
+        question: "Câu 107: Điểm kích hoạt trong giao diện đồ họa người dùng (GUI - Graphical User Interface) là:",
+        options: [
+            "A. Mỗi cửa sổ là một vùng của màn hình máy tính chứa văn bản, đồ họa, hình ảnh, chuyển động, hoặc cửa sổ khác. Nó có thể gối lên nhau, cuộn lại hoặc di chuyển.",
+            "B. Là hình ảnh nhỏ đại diện cho 1 cửa sổ đang tạm thời bị đóng lại, hoặc cho một số đối tượng khác. Kích vào biểu tượng thì cửa sổ đó hoạt động.",
+            "C. Chứa các thông tin bổ sung cho 1 cửa sổ màn hình, về 1 đối tượng nào đó. Khi đưa con trỏ vào thì đối tượng đó sẽ hoạt động.",
+            "D. Trong môi trường này, người dùng làm việc với nhiều cửa sổ xếp chồng lên nhau và các thành phần GUI khác. Người dùng có thể chuyển văn bản, đồ họa giữa các ứng dụng khác nhau. Môi trường này là cơ sở của công cụ xử lý tài liệu."
+        ],
+        answer: "C. Chứa các thông tin bổ sung cho 1 cửa sổ màn hình, về 1 đối tượng nào đó. Khi đưa con trỏ vào thì đối tượng đó sẽ hoạt động."
+    },
+    {
+        question: "Câu 108: Môi trường WYSIWYG trong giao diện đồ họa người dùng (GUI - Graphical User Interface) là:",
+        options: [
+            "A. Mỗi cửa sổ là một vùng của màn hình máy tính chứa văn bản, đồ họa, hình ảnh, chuyển động, hoặc cửa sổ khác. Nó có thể gối lên nhau, cuộn lại hoặc di chuyển.",
+            "B. Là hình ảnh nhỏ đại diện cho 1 cửa sổ đang tạm thời bị đóng lại, hoặc cho một số đối tượng khác. Kích vào biểu tượng thì cửa sổ đó hoạt động.",
+            "C. Chứa các thông tin bổ sung cho 1 cửa sổ màn hình, về 1 đối tượng nào đó. Khi đưa con trỏ vào thì đối tượng đó sẽ hoạt động.",
+            "D. Trong môi trường này, người dùng làm việc với nhiều cửa sổ xếp chồng lên nhau và các thành phần GUI khác. Người dùng có thể chuyển văn bản, đồ họa giữa các ứng dụng khác nhau. Môi trường này là cơ sở của công cụ xử lý tài liệu."
+        ],
+        answer: "D. Trong môi trường này, người dùng làm việc với nhiều cửa sổ xếp chồng lên nhau và các thành phần GUI khác. Người dùng có thể chuyển văn bản, đồ họa giữa các ứng dụng khác nhau. Môi trường này là cơ sở của công cụ xử lý tài liệu."
+    },
+    {
+        question: "Câu 109: Đa phương tiện là:",
+        options: [
+            "A. Sử dụng nhiều phương tiện kết nối với máy tính tạo ra môi trường liên kết người-máy trong các ứng dụng. Ví dụ: CD-ROM, VideoDisc, Image Digitizing, Overhead, Scanner, TV, Microphone,...",
+            "B. Các tài liệu có thể chứa cùng lúc văn bản, đồ họa, audio, video; cho phép các thông tin liên kết với nhau.",
+            "C. Cách tiếp cận thông tin văn bản và đồ họa, cho phép người sử dụng đến thẳng chủ đề mà họ muốn xem. Việc đọc và xem thông tin được điều khiển trực tiếp bởi người sử dụng, người sử dụng có thể điều khiển các kiểu thông tin, các mức độ thông tin trên màn hình. Dễ dàng quay lui hoặc chuyển sang chủ đề khác.",
+            "D. Tất cả các ý trên"
+        ],
+        answer: "A. Sử dụng nhiều phương tiện kết nối với máy tính tạo ra môi trường liên kết người-máy trong các ứng dụng. Ví dụ: CD-ROM, VideoDisc, Image Digitizing, Overhead, Scanner, TV, Microphone,..."
+    },
+    {
+        question: "Câu 110: Siêu phương tiện là:",
+        options: [
+            "A. Sử dụng nhiều phương tiện kết nối với máy tính tạo ra môi trường liên kết người-máy trong các ứng dụng. Ví dụ: CD-ROM, VideoDisc, Image Digitizing, Overhead, Scanner, TV, Microphone,...",
+            "B. Các tài liệu có thể chứa cùng lúc văn bản, đồ họa, audio, video; cho phép các thông tin liên kết với nhau.",
+            "C. Cách tiếp cận thông tin văn bản và đồ họa, cho phép người sử dụng đến thẳng chủ đề mà họ muốn xem. Việc đọc và xem thông tin được điều khiển trực tiếp bởi người sử dụng, người sử dụng có thể điều khiển các kiểu thông tin, các mức độ thông tin trên màn hình. Dễ dàng quay lui hoặc chuyển sang chủ đề khác.",
+            "D. Tất cả các ý trên"
+        ],
+        answer: "B. Các tài liệu có thể chứa cùng lúc văn bản, đồ họa, audio, video; cho phép các thông tin liên kết với nhau."
+    },
+    {
+        question: "Câu 111: Siêu văn bản:",
+        options: [
+            "A. Sử dụng nhiều phương tiện kết nối với máy tính tạo ra môi trường liên kết người-máy trong các ứng dụng. Ví dụ: CD-ROM, VideoDisc, Image Digitizing, Overhead, Scanner, TV, Microphone,...",
+            "B. Các tài liệu có thể chứa cùng lúc văn bản, đồ họa, audio, video; cho phép các thông tin liên kết với nhau. ",
+            "C. cách tiếp cận thông tin văn bản và đồ họa, cho phép người sử dụng đến thẳng chủ đề mà họ muốn xem. Việc đọc và xem thông tin được điều khiển trực tiếp bởi người sử dụng, người sử dụng có thể điều khiển các kiểu thông tin, các mức độ thông tin trên màn hình. Dễ dàng quay lui hoặc chuyển sang chủ đề khác. ",
+            "D. tất cả các ý trên"
+        ],
+        answer: "C. cách tiếp cận thông tin văn bản và đồ họa, cho phép người sử dụng đến thẳng chủ đề mà họ muốn xem. Việc đọc và xem thông tin được điều khiển trực tiếp bởi người sử dụng, người sử dụng có thể điều khiển các kiểu thông tin, các mức độ thông tin trên màn hình. Dễ dàng quay lui hoặc chuyển sang chủ đề khác. "
+    },
+    {
+        question: "Câu 112: Mô hình tương tác trực quan (Visual Interactive Modelling) :",
+        options: [
+            "A. Nhằm đưa ra kết quả (ảnh hưởng, hậu quả) của 1 quyết định quản lý. Do đó cần xây dựng các kỹ thuật mô phỏng: mô phỏng hiện thị.. mà cho phép xem xét kết quả nằm ngoài thời gian quan sát...",
+            "B. Biểu diễn không gian 3 chiều: cho phép sử dụng những kinh nghiệm tự nhiên về tri giác không gian. Thực chất, hiện trên màn hình là 2 chiều, đòi hỏi người sử dụng phải có suy luận hình học về quan hệ không gian. ",
+            "C. Nhằm xây dựng giao diện thân thiện.",
+            "D. tất cả các ý trên"
+        ],
+        answer: "A. Nhằm đưa ra kết quả (ảnh hưởng, hậu quả) của 1 quyết định quản lý. Do đó cần xây dựng các kỹ thuật mô phỏng: mô phỏng hiện thị.. mà cho phép xem xét kết quả nằm ngoài thời gian quan sát..."
+    },
+    {
+        question: "Câu 113: Hiện thực ảo:",
+        options: [
+            "A. Nhằm đưa ra kết quả (ảnh hưởng, hậu quả) của 1 quyết định quản lý. Do đó cần xây dựng các kỹ thuật mô phỏng: mô phỏng hiện thị.. mà cho phép xem xét kết quả nằm ngoài thời gian quan sát...",
+            "B. Biểu diễn không gian 3 chiều: cho phép sử dụng những kinh nghiệm tự nhiên về tri giác không gian. Thực chất, hiện trên màn hình là 2 chiều, đòi hỏi người sử dụng phải có suy luận hình học về quan hệ không gian. ",
+            "C. Nhằm xây dựng giao diện thân thiện.",
+            "D. tất cả các ý trên"
+        ],
+        answer: "B. Biểu diễn không gian 3 chiều: cho phép sử dụng những kinh nghiệm tự nhiên về tri giác không gian. Thực chất, hiện trên màn hình là 2 chiều, đòi hỏi người sử dụng phải có suy luận hình học về quan hệ không gian. "
+    },
+    {
+        question: "Câu 114: Người thiết kế Hệ hỗ trợ ra quyết định cần kiến thức gì? ",
+        options: [
+            "A. thấu đáo về bài toán và môi trường ra quyết định",
+            "B. có kiến thức sâu về phân tích hệ thống. ",
+            "C. có nhiều kinh nghiệm thực tế (nhiều hơn so với các hệ thống thông tin khác), nắm vững các kiến thức thuộc nhiều lĩnh vực khác nhau như: toán học, khoa học quản lý, thống kê...",
+            "D. tất cả các ý trên"
+        ],
+        answer: "D. tất cả các ý trên"
+    },
+    {
+        question: "Câu 115: Xây dựng Hệ hỗ trợ quyết định là quá trình phức tạp, chúng ta cần gì? ",
+        options: [
+            "A. lựa chọn cấu hình",
+            "B. lựa chọn giao diện người - máy",
+            "C. xác định các ảnh hưởng đến cá nhân và nhóm,...",
+            "D. tất cả các ý trên"
+        ],
+        answer: "D. tất cả các ý trên"
+    },
+    {
+        question: "Câu 116: Quá trình thiết kế Hệ hỗ trợ quyết định trải qua các giai đoạn:",
+        options: [
+            "A. lập kế hoạch,",
+            "B. nghiên cứu khảo sát",
+            "C. phân tích, thiết kế",
+            "D. thử nghiệm, cài đặt, bảo hành và đưa vào sử dụng",
+            "E. tất cả các đáp án trên"
+        ],
+        answer: "E. tất cả các đáp án trên"
+    },
+    {
+        question: "Câu 117: Giai đoạn lập kế hoạch trong quá trình thiết kế Hệ hỗ trợ quyết định chiếm bao nhiêu % ",
+        options: [
+            "A. 5%",
+            "B. 15%",
+            "C. 25%",
+            "D. 10%"
+        ],
+        answer: "A. 5%"
+    },
+    {
+        question: "Câu 118: Giai đoạn nghiên cứu khảo sát trong quá trình thiết kế Hệ hỗ trợ quyết định chiếm bao nhiêu %",
+        options: [
+            "A. 5%",
+            "B. 15%",
+            "C. 25%",
+            "D. 10%"
+        ],
+        answer: "A. 5%"
+    },
+    {
+        question: "Câu 119: Giai đoạn Phân tích trong quá trình thiết kế Hệ hỗ trợ quyết định chiếm bao nhiêu % ",
+        options: [
+            "A. 5%",
+            "B. 15%",
+            "C. 25%",
+            "D. 10%"
+        ],
+        answer: "B. 15%"
+    },
+    {
+        question: "Câu 120: Giai đoạn xây dựng trong quá trình thiết kế Hệ hỗ trợ quyết định chiếm bao nhiêu %",
+        options: [
+            "A. 5%",
+            "B. 15%",
+            "C. 25%",
+            "D. 10%"
+        ],
+        answer: "C. 25%"
+    },
+            ]
+                };
+        const originalQuizData = JSON.parse(JSON.stringify(quizData)); // Lưu dữ liệu gốc
+
+        // Audio objects
+        const correctSound = document.getElementById('correct-sound');
+        const incorrectSound = document.getElementById('incorrect-sound');
+
+        let currentSection = "";
+        let currentQuestionIndex = 0;
+        let userAnswersPerSection = {}; // Store answers per section
+        let autoNextTimer = null;
+        let startTime = null;
+        let timerInterval = null;
+        let isMuted = false; // Trạng thái âm thanh
+
+        // Dark mode functionality
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const body = document.body;
+
+        // Load saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            darkModeToggle.textContent = 'Tắt Dark Mode';
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const isDarkMode = body.classList.contains('dark-mode');
+            darkModeToggle.textContent = isDarkMode ? 'Tắt Dark Mode' : 'Bật Dark Mode';
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        });
+
+        // Timer functionality
+        function startTimer() {
+            startTime = new Date();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startTime;
+            const hours = Math.floor(diff / 3600000);
+            const minutes = Math.floor((diff % 3600000) / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+            document.getElementById('timer').textContent = `Thời gian: ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        // Score functionality
+        function calculateTotalQuestions() {
+            return Object.values(quizData).reduce((total, section) => total + section.length, 0);
+        }
+
+        function calculateScore() {
+            let totalCorrect = 0;
+            let totalQuestions = 0;
+            for (const section in quizData) {
+                const answers = userAnswersPerSection[section] || {};
+                const questions = quizData[section] || [];
+                totalQuestions += questions.length;
+                questions.forEach((_, index) => {
+                    if (answers[index] && answers[index].isCorrect) {
+                        totalCorrect++;
+                    }
+                });
+            }
+            const score = totalQuestions ? (totalCorrect / totalQuestions) * 10 : 0;
+            return { totalCorrect, totalQuestions, score: score.toFixed(2).replace('.', ',') };
+        }
+
+        function displayScore() {
+            stopTimer();
+            const { totalCorrect, totalQuestions, score } = calculateScore();
+            document.getElementById('score').textContent = `Điểm: ${score}/10`;
+        }
+
+        function checkCompletion() {
+            const totalQuestions = calculateTotalQuestions();
+            const completedCount = Object.values(userAnswersPerSection).reduce((sum, answers) => sum + Object.keys(answers).length, 0);
+            return completedCount === totalQuestions;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initSections();
+            initEventListeners();
+            updateTOC();
+            startTimer();
+            // Cập nhật total-questions cho tất cả các section
+            const totalQuestions = calculateTotalQuestions();
+            document.querySelectorAll('#total-questions').forEach(el => el.textContent = totalQuestions);
+        });
+
+        function initSections() {
+            const sectionsContainer = document.querySelector('.sections');
+
+            for (const section in quizData) {
+                const sectionBtn = document.createElement('button');
+                sectionBtn.className = 'section-btn';
+                sectionBtn.textContent = section;
+                sectionBtn.dataset.section = section;
+                sectionsContainer.appendChild(sectionBtn);
+            }
+
+            if (Object.keys(quizData).length > 0) {
+                currentSection = Object.keys(quizData)[0];
+                userAnswersPerSection[currentSection] = userAnswersPerSection[currentSection] || {};
+                document.querySelector(`.section-btn[data-section="${currentSection}"]`).classList.add('active');
+                loadSection(currentSection);
+            }
+        }
+
+        function initEventListeners() {
+            document.querySelectorAll('.section-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelector('.section-btn.active').classList.remove('active');
+                    this.classList.add('active');
+
+                    userAnswersPerSection[currentSection].currentQuestionIndex = currentQuestionIndex;
+
+                    currentSection = this.dataset.section;
+                    userAnswersPerSection[currentSection] = userAnswersPerSection[currentSection] || {};
+                    currentQuestionIndex = userAnswersPerSection[currentSection].currentQuestionIndex || 0;
+                    loadSection(currentSection);
+                    updateTOC();
+                });
+            });
+
+            document.getElementById('prev-btn').addEventListener('click', prevQuestion);
+            document.getElementById('next-btn').addEventListener('click', nextQuestion);
+            document.getElementById('toc-prev').addEventListener('click', prevTOCPage);
+            document.getElementById('toc-next').addEventListener('click', nextTOCPage);
+            document.getElementById('submit-btn').addEventListener('click', () => {
+                if (!checkCompletion()) {
+                    if (confirm('Bạn chưa hoàn thành hết các câu hỏi. Bạn có chắc muốn nộp bài không?')) {
+                        displayScore();
+                    }
+                } else {
+                    displayScore();
+                }
+            });
+            document.getElementById('mute-btn').addEventListener('click', () => {
+                isMuted = !isMuted;
+                document.getElementById('mute-btn').textContent = isMuted ? 'Bật tiếng' : 'Tắt tiếng';
+            });
+        }
+
+        function loadSection(section) {
+            const quizContainer = document.getElementById('quiz-container');
+            quizContainer.innerHTML = '';
+            quizContainer.classList.add('active');
+
+            if (quizData[section] && quizData[section].length > 0) {
+                const totalQuestions = calculateTotalQuestions();
+                document.getElementById('total-questions').textContent = totalQuestions;
+                updateQuestionDisplay();
+            }
+        }
+
+        function updateQuestionDisplay() {
+            clearTimeout(autoNextTimer);
+
+            const quizContainer = document.getElementById('quiz-container');
+            const questions = quizData[currentSection];
+            const question = questions[currentQuestionIndex];
+
+            quizContainer.innerHTML = `
+                <div class="question">
+                    <div class="question-text">${question.question}</div>
+                    <div class="options" id="options-container">
+                        ${question.options.map((option, index) => `
+                            <div class="option" data-option="${option}">
+                                <input type="radio" name="answer" id="option-${index}" value="${option}">
+                                <label for="option-${index}">${option}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="show-answer" id="show-answer"></div>
+                </div>
+            `;
+
+            const userAnswers = userAnswersPerSection[currentSection];
+            if (userAnswers && userAnswers[currentQuestionIndex]) {
+                const selected = userAnswers[currentQuestionIndex].answer;
+                const selectedOption = document.querySelector(`input[value="${selected}"]`);
+                if (selectedOption) {
+                    selectedOption.checked = true;
+                    checkAnswer(selectedOption.value, true);
+                }
+            }
+
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const radio = this.querySelector('input');
+                    radio.checked = true;
+                    checkAnswer(radio.value);
+
+                    clearTimeout(autoNextTimer);
+                    if (currentQuestionIndex < quizData[currentSection].length - 1) {
+                        autoNextTimer = setTimeout(() => {
+                            currentQuestionIndex++;
+                            updateQuestionDisplay();
+                        }, 2000);
+                    }
+                });
+            });
+
+            document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
+            document.getElementById('next-btn').disabled = currentQuestionIndex === questions.length - 1;
+
+            updateProgress();
+            updateTOC();
+        }
+
+        function checkAnswer(selectedAnswer, isRestoring = false) {
+            const questions = quizData[currentSection];
+            const question = questions[currentQuestionIndex];
+            const options = document.querySelectorAll('.option');
+            const showAnswer = document.getElementById('show-answer');
+
+            userAnswersPerSection[currentSection][currentQuestionIndex] = {
+                answer: selectedAnswer,
+                isCorrect: selectedAnswer === question.answer
+            };
+
+            options.forEach(option => {
+                const optionText = option.dataset.option;
+                option.classList.remove('correct', 'incorrect');
+
+                if (optionText === question.answer) {
+                    option.classList.add('correct');
+                } else if (optionText === selectedAnswer && selectedAnswer !== question.answer) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            if (!isRestoring) {
+                if (selectedAnswer === question.answer && !isMuted) {
+                    correctSound.play().catch(e => console.error("Error playing correct sound:", e));
+                } else if (selectedAnswer !== question.answer && !isMuted) {
+                    incorrectSound.play().catch(e => console.error("Error playing incorrect sound:", e));
+                    showAnswer.textContent = `Đáp án đúng: ${question.answer}`;
+                    showAnswer.style.display = 'block';
+                }
+            } else {
+                showAnswer.style.display = 'none';
+            }
+
+            updateProgress();
+            updateTOC();
+        }
+
+        function updateProgress() {
+            const answers = userAnswersPerSection[currentSection] || {};
+            let correct = 0;
+            let incorrect = 0;
+            const questions = quizData[currentSection] || [];
+            let completed = 0;
+
+            questions.forEach((_, index) => {
+                if (answers[index]) {
+                    completed++;
+                    if (answers[index].isCorrect) correct++;
+                    else incorrect++;
+                }
+            });
+
+            document.getElementById('completed-count').textContent = completed;
+            document.getElementById('total-questions').textContent = calculateTotalQuestions();
+            document.getElementById('correct-count').textContent = correct;
+            document.getElementById('incorrect-count').textContent = incorrect;
+
+            const percent = calculateTotalQuestions() ? Math.round((completed / calculateTotalQuestions()) * 100) : 0;
+            document.getElementById('progress-bar').style.width = percent + '%';
+            document.getElementById('progress-percent').textContent = percent + '%';
+        }
+
+        function prevQuestion() {
+            clearTimeout(autoNextTimer);
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                updateQuestionDisplay();
+            }
+        }
+
+        function nextQuestion() {
+            clearTimeout(autoNextTimer);
+            const questions = quizData[currentSection];
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                updateQuestionDisplay();
+            }
+        }
+
+        document.getElementById('reload-btn').addEventListener('click', () => {
+            if (!quizData[currentSection]) return;
+
+            // Xáo trộn mảng (Fisher-Yates)
+            const shuffleArray = (arr) => {
+                const shuffled = [...arr];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            };
+
+            // Sao lưu và khôi phục đối chiếu theo index
+            userAnswersPerSection = {}; // reset answer tracker for all sections
+            stopTimer();
+            startTimer();
+
+            // Khôi phục thứ tự gốc trước
+            for (const section in quizData) {
+                quizData[section] = JSON.parse(JSON.stringify(originalQuizData[section]));
+            }
+
+            // Áp dụng xáo trộn nếu checkbox được chọn
+            if (document.getElementById('shuffle-questions').checked) {
+                for (const section in quizData) {
+                    quizData[section] = shuffleArray(quizData[section]);
+                }
+            }
+
+            if (document.getElementById('shuffle-answers').checked) {
+                for (const section in quizData) {
+                    quizData[section].forEach(q => {
+                        q.options = shuffleArray(q.options);
+                    });
+                }
+            }
+
+            currentSection = Object.keys(quizData)[0];
+            currentQuestionIndex = 0;
+            userAnswersPerSection[currentSection] = userAnswersPerSection[currentSection] || {};
+            document.querySelector(`.section-btn[data-section="${currentSection}"]`).classList.add('active');
+            document.getElementById('score').textContent = 'Điểm: Chưa nộp bài';
+            loadSection(currentSection);
+            updateTOC();
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight') {
+                const nextBtn = document.getElementById('next-btn');
+                if (nextBtn && !nextBtn.disabled) {
+                    nextBtn.click();
+                }
+            } else if (event.key === 'ArrowLeft') {
+                const prevBtn = document.getElementById('prev-btn');
+                if (prevBtn && !prevBtn.disabled) {
+                    prevBtn.click();
+                }
+            }
+        });
+
+        let tocPage = 0;
+        const tocItemsPerPage = 42;
+
+        function updateTOC() {
+            const toc = document.getElementById('toc');
+            const questions = quizData[currentSection] || [];
+            const answers = userAnswersPerSection[currentSection] || {};
+            toc.innerHTML = '';
+
+            const start = tocPage * tocItemsPerPage;
+            const end = start + tocItemsPerPage;
+            const paginatedQuestions = questions.slice(start, end);
+
+            paginatedQuestions.forEach((_, index) => {
+                const globalIndex = start + index;
+                const item = document.createElement('div');
+                item.className = 'toc-item';
+                item.textContent = globalIndex + 1;
+
+                if (answers[globalIndex]) {
+                    if (answers[globalIndex].isCorrect) {
+                        item.classList.add('green');
+                    } else {
+                        item.classList.add('red');
+                    }
+                } else if (globalIndex === currentQuestionIndex) {
+                    item.classList.add('blue');
+                }
+
+                item.addEventListener('click', () => {
+                    currentQuestionIndex = globalIndex;
+                    updateQuestionDisplay();
+                });
+
+                toc.appendChild(item);
+            });
+
+            document.getElementById('toc-prev').disabled = tocPage === 0;
+            document.getElementById('toc-next').disabled = end >= questions.length;
+        }
+
+        function prevTOCPage() {
+            if (tocPage > 0) {
+                tocPage--;
+                updateTOC();
+            }
+        }
+
+        function nextTOCPage() {
+            const questions = quizData[currentSection] || [];
+            if ((tocPage + 1) * tocItemsPerPage < questions.length) {
+                tocPage++;
+                updateTOC();
+            }
+        }
+    </script>
